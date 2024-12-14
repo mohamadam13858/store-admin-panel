@@ -1,23 +1,20 @@
 import React from "react";
-import RightContent from "./RightContent";
-import LeftContent from "./LeftContent";
-
-
+import Leftcontent from "./LeftContent";
+import Rightcontent from "./RightContent";
 
 const Index = () => {
-    return (
-        <nav className="navbar fixed-top navbar-dark bg-secondary top_navbar py-0">
-            <div className="container-fluid h-100 pe-0">
+  return (
+    <nav className="navbar fixed-top navbar-dark bg-secondary top_navbar py-0">
+      <div className="container-fluid h-100 pe-0">
+        
+        <Rightcontent/>
 
-                
-                <RightContent/>
-
-
-                <LeftContent/>
+        <Leftcontent/>
 
 
-            </div>
-        </nav>
-    )
-}
+      </div>
+    </nav>
+  );
+};
+
 export default Index;

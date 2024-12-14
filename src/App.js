@@ -1,9 +1,9 @@
-import React from "react";
-import Index from "./layouts/admin/Index";
+import React from 'react';
+import Index from './layouts/admin/Index';
 
 function App() {
   return (
-    <div>
+    <div className="App">
       <Index/>
     </div>
   );

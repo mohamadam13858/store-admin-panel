@@ -18,7 +18,7 @@ const AdminContextContainer = ({Children})=>{
             showSidebar ,
             setShowSidebar
         }}>
-            {Children}
+            ({Children})
         </AdminContext.Provider>
     )
 }
