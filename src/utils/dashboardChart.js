@@ -1,6 +1,7 @@
-import Chart from "chart.js/auto";
+import  Chart  from "chart.js/auto";
 
-export const setDashboardChart = (labels , datapoints)=>{
+export const SetDashboardchart = (labels , datapoints)=>{
+
     const data = {
         labels: labels,
         datasets: [
