@@ -5,9 +5,9 @@ import Dashboard from "../../pages/dashboard/Dashboard";
 import { toggleSidebar } from "../../utils/initialDoms";
 import Navbar from "./navbar/Index";
 import Sidebar from "./sidebar/Index";
+import Content from "../../pages/content";
 
 const Index = () => {
-  const {showSidebar} = useContext(AdminContext)
   useEffect(()=>{
     // require('../../assets/js/toggleSidebar')
     // toggleSidebar();
@@ -15,13 +15,9 @@ const Index = () => {
   return (
     <AdminContextContainer>
       <div>
+        <Content/>
         <Navbar />
         <Sidebar />
-        <section id="content_section" 
-        className={`bg-light py-2 px-3 ${showSidebar ? "with_sidebar" : null}`}>
-          {/* <Dashboard/> */}
-          <Category/>
-        </section>
       </div>
     </AdminContextContainer>
   );
