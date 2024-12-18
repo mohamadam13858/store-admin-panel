@@ -18,7 +18,9 @@ const TableProduct = () => {
         { field: "title", title: "عنوان محصول" },
         { field: "price", title: "قیمت محصول" },
     ]
-    const additionalElements = () => {
+    const additionalElements = (itemid) => {
+        console.log(itemid);
+        
         return(
         <>
             <i className="fas fa-edit text-warning mx-1 hoverable_text pointer has_tooltip" title="ویرایش محصول" data-bs-toggle="modal" data-bs-placement="top" data-bs-target="#add_product_modal"></i>
@@ -28,7 +30,7 @@ const TableProduct = () => {
    ) }
     const additionfield = {
         title: "عملیات",
-        elements: () => additionalElements()
+        elements: (itemid) => additionalElements(itemid)
 
     }
 

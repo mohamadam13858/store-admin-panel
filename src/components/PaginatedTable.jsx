@@ -27,7 +27,7 @@ const PaginatedTable = ({ data, dataInfo, additionfield }) => {
                             ))}
                             {
                                 additionfield ? (
-                                    <th>{additionfield.elements()}</th>
+                                    <th>{additionfield.elements(m.id)}</th>
                                 ) : null
                             }
 
