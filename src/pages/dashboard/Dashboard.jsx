@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { SetDashboardchart } from "../../utils/dashboardChart";
+import { setDashboardChart } from "../../utils/dashboardChart";
 import Card from "./Card";
 import ProductTable from "./ProductTable";
 
@@ -20,7 +20,7 @@ const Dashboard = () => {
       "اسفند",
     ];
     const datapoints = [0, 20, 20, 60, 60, 120, 180, 120, 125, 105, 110, 170];
-    SetDashboardchart(labels, datapoints);
+    setDashboardChart(labels, datapoints);
   }, []);
 
   return (

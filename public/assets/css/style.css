@@ -29,6 +29,11 @@ a{
     z-index: unset !important;
 }
 
+.disabled{
+    pointer-events: none !important;
+    opacity: 0.5;
+}
+
 
 /* scrollbars ------------------ */
 ::-webkit-scrollbar{
@@ -377,9 +382,6 @@ td , th {
     background: linear-gradient(90deg, hsla(217, 100%, 50%, 1) 0%, hsla(186, 100%, 69%, 1) 100%);
     background: -moz-linear-gradient(90deg, hsla(217, 100%, 50%, 1) 0%, hsla(186, 100%, 69%, 1) 100%);
     filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#0061FF", endColorstr="#60EFFF", GradientType=1 );
-}
-.mm{
-    background: #000;
 }
 
 

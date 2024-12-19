@@ -4,9 +4,10 @@ import ModalsContainer from "../../components/ModalsContainer";
 const Addcategory = () => {
   return (
     <ModalsContainer
-      fullscreen={true}
-      id={"add_product_category_modal"}
-      title={"افزودن دسته محصولات"}>
+      fullScreen={true}
+      id="add_product_category_modal"
+      title="افزودن دسته محصولات"
+    >
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-12 col-md-6 col-lg-8">
@@ -47,11 +48,7 @@ const Addcategory = () => {
           </div>
           <div className="col-12 col-md-6 col-lg-8">
             <div className="input-group mb-3 dir_ltr">
-              <input
-                type="file"
-                className="form-control"
-                placeholder="تصویر"
-              />
+              <input type="file" className="form-control" placeholder="تصویر" />
               <span className="input-group-text w_6rem justify-content-center">
                 تصویر
               </span>
@@ -66,7 +63,7 @@ const Addcategory = () => {
               />
               <label
                 className="form-check-label pointer"
-                for="flexSwitchCheckDefault"
+                htmlFor="flexSwitchCheckDefault"
               >
                 وضعیت فعال
               </label>

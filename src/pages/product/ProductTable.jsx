@@ -1,6 +1,6 @@
 import React from "react";
 
-const TableProduct = () => {
+const ProductTable = () => {
   return (
     <>
       <table className="table table-responsive text-center table-hover table-bordered">
@@ -88,4 +88,4 @@ const TableProduct = () => {
   );
 };
 
-export default TableProduct;
+export default Producttable;
