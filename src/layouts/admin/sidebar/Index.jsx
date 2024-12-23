@@ -14,26 +14,26 @@ const Index = () => {
           <SidebarItem targetPath="/" icon="fas fa-tachometer-alt" title="داشبورد"/>
           {/* <!-- =================================== --> */}
           <SidebarGroupTitle title="فروشگاه"/>
-          <SidebarItem targetPath="/Category" icon="fas fa-stream" title="مدیریت گروه محصول"/>
-          <SidebarItem targetPath="/Product" icon="fas fa-cube" title="مدیریت محصول"/>
-          <SidebarItem targetPath="*" icon="fas fa-copyright"  title="مدیریت برندها"/>
-          <SidebarItem targetPath="*" icon="fab fa-pagelines" title="مدیریت گارانتی ها"/>
-          <SidebarItem targetPath="*" icon="fas fa-palette"  title="مدیریت رنگ ها"/>
-          <SidebarItem targetPath="*" icon="fas fa-percentage" title="مدیریت تخفیف ها"/>
+          <SidebarItem targetPath="/categories" icon="fas fa-stream" title="مدیریت گروه محصول"/>
+          <SidebarItem targetPath="/products" icon="fas fa-cube" title="مدیریت محصول"/>
+          <SidebarItem targetPath="/brands" icon="fas fa-copyright"  title="مدیریت برندها"/>
+          <SidebarItem targetPath="/guaranties" icon="fab fa-pagelines" title="مدیریت گارانتی ها"/>
+          <SidebarItem targetPath="/colors" icon="fas fa-palette"  title="مدیریت رنگ ها"/>
+          <SidebarItem targetPath="/test" icon="fas fa-percentage" title="مدیریت تخفیف ها"/>
           {/* <!-- =================================== --> */}
           <SidebarGroupTitle title="سفارشات و سبد"/>
-          <SidebarItem targetPath="*" icon="fas fa-shopping-basket" title="مدیریت سبد ها"/>
-          <SidebarItem targetPath="*" icon="fas fa-luggage-cart" title="مدیریت سفارشات"/>
-          <SidebarItem targetPath="*" icon="fas fa-truck-loading" title="مدیریت نحوه ارسال"/>
+          <SidebarItem targetPath="/test" icon="fas fa-shopping-basket" title="مدیریت سبد ها"/>
+          <SidebarItem targetPath="/test" icon="fas fa-luggage-cart" title="مدیریت سفارشات"/>
+          <SidebarItem targetPath="/test" icon="fas fa-truck-loading" title="مدیریت نحوه ارسال"/>
           {/* <!-- =================================== --> */}
           <SidebarGroupTitle title="کاربران و همکاران"/>
-          <SidebarItem targetPath="*" icon="fas fa-users" title="مشاهده کاربران"/>
-          <SidebarItem targetPath="*" icon="fas fa-user-tag" title="نقش ها"/>
-          <SidebarItem targetPath="*" icon="fas fa-shield-alt" title="مجوز ها"/>
+          <SidebarItem targetPath="/test" icon="fas fa-users" title="مشاهده کاربران"/>
+          <SidebarItem targetPath="/test" icon="fas fa-user-tag" title="نقش ها"/>
+          <SidebarItem targetPath="/test" icon="fas fa-shield-alt" title="مجوز ها"/>
           {/* <!-- =================================== --> */}
           <SidebarGroupTitle title="ارتباطات"/>
-          <SidebarItem targetPath="*" icon="fas fa-question-circle" title="سوال ها"/>
-          <SidebarItem targetPath="*" icon="fas fa-comment" title="نظرات"/>
+          <SidebarItem targetPath="/test" icon="fas fa-question-circle" title="سوال ها"/>
+          <SidebarItem targetPath="/test" icon="fas fa-comment" title="نظرات"/>
         </div>
       </div>
     </section>
