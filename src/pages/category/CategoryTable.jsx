@@ -39,7 +39,8 @@ const Categorytable = () => {
   const dataInfo = [
     { field: "id", title: "#" },
     { field: "title", title: "عنوان محصول" },
-    { field: "parent_id", title: "والد" },
+    ...(data.some(item => item.parent_id) ? [{ field: "parent_id", title: "والد" }] : []),
+    // { field: "parent_id", title: "والد" },
   ];
 
   // const additionalElements = (itemId) => {
