@@ -5,16 +5,19 @@ import { GetCategoriesService } from "../../services/category";
 import { Alert } from "../../utils/alert";
 import ShowInMenu from "./tableAdditons/ShowInMenu";
 import Actions from "./tableAdditons/Actions";
+import { useLocation, useParams } from "react-router-dom";
 
 const Categorytable = () => {
 
   const [data, setData] = useState([])
+  const params = useParams()
+  const location = useLocation()
 
 
   const handleGetCategories = async () => {
 
     try {
-      const res = await GetCategoriesService()
+      const res = await GetCategoriesService(params.categoryId)
       if (res.status === 200) {
         setData(res.data.data)
 
@@ -29,9 +32,8 @@ const Categorytable = () => {
   }
 
   useEffect(() => {
-
     handleGetCategories()
-  }, []);
+  }, [params]);
 
   const dataInfo = [
     { field: "id", title: "#" },
@@ -83,12 +85,12 @@ const Categorytable = () => {
   const additionField = [
     {
       title: "نمایش در منو",
-      elements: (rowData) => <ShowInMenu rowData={rowData}/>
+      elements: (rowData) => <ShowInMenu rowData={rowData} />
     }
     ,
     {
       title: "عملیات",
-      elements: (rowData) => <Actions rowData={rowData}/>,
+      elements: (rowData) => <Actions rowData={rowData} />,
     }
   ];
 
@@ -100,6 +102,11 @@ const Categorytable = () => {
 
   return (
     <>
+      {location.state ?
+        <h5 className="text-center">
+          <span>زیر گروه:</span>
+          <span className="text-info">{location.state.parentData.title}</span>
+        </h5> : null}
       <PaginatedTable
         data={data}
         dataInfo={dataInfo}
