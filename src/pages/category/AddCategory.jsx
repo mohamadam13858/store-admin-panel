@@ -3,7 +3,7 @@ import ModalsContainer from "../../components/ModalsContainer";
 import * as Yup from "yup";
 import { Form, Formik } from "formik";
 import FormikControl from "../../components/form/FormikControl";
-import { GetCategoriesService } from "../../services/category";
+import { createNewCategory, createNewCategoryService, GetCategoriesService } from "../../services/category";
 import { Alert } from "../../utils/alert";
 
 const initialValues = {
@@ -28,9 +28,25 @@ const validationSchema = Yup.object({
   show_in_menu: Yup.boolean(),
 });
 
-const onSubmit = (values, actions) => {
-  console.log(values);
-  // ارسال داده‌ها به سرور یا انجام عملیات دیگر
+const onSubmit = async(values, actions ,  setRender) => {
+  try {
+    values = {
+      ...values, 
+      is_active: values.is_active ? 1 : 0 ,
+      show_in_menu: values.show_in_menu ? 1 : 0 , 
+    }
+    const res = await createNewCategoryService(values)
+    if (res.status === 201) {
+      Alert("رکورد ثبت شد" , res.data.message , "success")
+      actions.resetForm()
+      setRender(last => last+1)
+      
+    }
+    
+  } catch (error) {
+    console.log(error.message);
+    
+  }
 };
 
 // تعریف متغیر parents
@@ -39,7 +55,7 @@ const onSubmit = (values, actions) => {
 //   { key: 'دسته 1', value: '1' },
 //   { key: 'دسته 2', value: '2' },
 // ];
-const Addcategory = () => {
+const Addcategory = ({setRender}) => {
   const [ parents , setParents] = useState([])
   const handleGetParentsCategories = async ()=>{
     try {
@@ -76,7 +92,7 @@ const Addcategory = () => {
       >
         <Formik
           initialValues={initialValues}
-          onSubmit={onSubmit}
+          onSubmit={(values , actions )=>onSubmit(values , actions , setRender)}
           validationSchema={validationSchema}
         >
           <Form>

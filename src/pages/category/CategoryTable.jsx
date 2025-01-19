@@ -11,6 +11,7 @@ import { ConvertDateToJalali } from "../../utils/convertDate";
 const Categorytable = () => {
 
   const [data, setData] = useState([])
+  const [render , setRender] = useState(0)
   const params = useParams()
   const location = useLocation()
 
@@ -31,7 +32,7 @@ const Categorytable = () => {
 
   useEffect(() => {
     handleGetCategories()
-  }, [params]);
+  }, [params , render]);
 
   const dataInfo = [
     { field: "id", title: "#" },
@@ -80,7 +81,7 @@ const Categorytable = () => {
           numOfPAge={8}
           searchParams={searchParams}
         >
-          <Addcategory />
+          <Addcategory  setRender={setRender}/>
         </PaginatedTable>
       ) : (
         <h5 className=" text-center text-danger my-5">هیچ دسته بندی پیدا نشد</h5>
