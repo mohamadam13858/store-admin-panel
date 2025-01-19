@@ -5,7 +5,7 @@ import FormikError from "./FormikError";
 
 
 
-const Input = ({className , type , name , label, placeholder}) => {
+const Inputt = ({className , type , name , label, placeholder}) => {
     return (
         <div className={`col-12 ${className}`}>
             <div className="input-group mb-3 dir_ltr">
@@ -20,4 +20,4 @@ const Input = ({className , type , name , label, placeholder}) => {
 }
 
 
-export default Input;
+export default Inputt;
