@@ -7,6 +7,7 @@ import { createNewCategory, createNewCategoryService, GetCategoriesService } fro
 import { Alert } from "../../utils/alert";
 import Spinnerload from "../../components/spinnerload";
 import SubmitButton from "../../components/form/submitButton";
+import { useParams } from "react-router-dom";
 
 const initialValues = {
   parent_id: "",
@@ -58,7 +59,9 @@ const onSubmit = async (values, actions, setRender) => {
 //   { key: 'دسته 2', value: '2' },
 // ];
 const Addcategory = ({ setRender }) => {
+  const params = useParams()
   const [parents, setParents] = useState([])
+  const [reInitialValues, setReInitialValues] = useState(null)
   const handleGetParentsCategories = async () => {
     try {
       const res = await GetCategoriesService()
@@ -77,6 +80,17 @@ const Addcategory = ({ setRender }) => {
     handleGetParentsCategories()
   }, []);
 
+  useEffect(()=>{
+        if (params.categoryId) {
+          setReInitialValues({
+            ...initialValues ,
+            parent_id: params.categoryId
+          })
+        }else{
+          setReInitialValues(null)
+        }
+  }, [params.categoryId])
+
   return (
     <>
       <button
@@ -93,9 +107,10 @@ const Addcategory = ({ setRender }) => {
         title="افزودن دسته محصولات"
       >
         <Formik
-          initialValues={initialValues}
+          initialValues={reInitialValues||initialValues}
           onSubmit={(values, actions) => onSubmit(values, actions, setRender)}
           validationSchema={validationSchema}
+          enableReinitialize
         >
           <Form>
             <div className="container">
