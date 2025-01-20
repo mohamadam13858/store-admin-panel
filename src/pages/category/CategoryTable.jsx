@@ -12,12 +12,12 @@ const Categorytable = () => {
 
   const [data, setData] = useState([])
   const [render , setRender] = useState(0)
+  const [loading , setLoading] = useState(false)
   const params = useParams()
-  const location = useLocation()
 
 
   const handleGetCategories = async () => {
-
+    setLoading(true)
     try {
       const res = await GetCategoriesService(params.categoryId)
       if (res.status === 200) {
@@ -27,6 +27,8 @@ const Categorytable = () => {
     } catch (error) {
       
 
+    }finally{
+      setLoading(false)
     }
   }
 
@@ -73,19 +75,16 @@ const Categorytable = () => {
           <span className="text-info">{location.state.parentData.title}</span>
         </h5> : null} */}
       <Outlet />
-      {data.length ? (
         <PaginatedTable
           data={data}
           dataInfo={dataInfo}
           additionField={additionField}
           numOfPAge={8}
           searchParams={searchParams}
+          loading={loading}
         >
           <Addcategory  setRender={setRender}/>
         </PaginatedTable>
-      ) : (
-        <h5 className=" text-center text-danger my-5">هیچ دسته بندی پیدا نشد</h5>
-      )}
 
 
     </>

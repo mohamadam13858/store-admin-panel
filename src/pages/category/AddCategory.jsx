@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import ModalsContainer from "../../components/ModalsContainer";
 import * as Yup from "yup";
-import { Form, Formik } from "formik";
+import { FastField, Form, Formik } from "formik";
 import FormikControl from "../../components/form/FormikControl";
 import { createNewCategory, createNewCategoryService, GetCategoriesService } from "../../services/category";
 import { Alert } from "../../utils/alert";
+import Spinnerload from "../../components/spinnerload";
+import SubmitButton from "../../components/form/submitButton";
 
 const initialValues = {
   parent_id: "",
@@ -28,24 +30,24 @@ const validationSchema = Yup.object({
   show_in_menu: Yup.boolean(),
 });
 
-const onSubmit = async(values, actions ,  setRender) => {
+const onSubmit = async (values, actions, setRender) => {
   try {
     values = {
-      ...values, 
-      is_active: values.is_active ? 1 : 0 ,
-      show_in_menu: values.show_in_menu ? 1 : 0 , 
+      ...values,
+      is_active: values.is_active ? 1 : 0,
+      show_in_menu: values.show_in_menu ? 1 : 0,
     }
     const res = await createNewCategoryService(values)
     if (res.status === 201) {
-      Alert("رکورد ثبت شد" , res.data.message , "success")
+      Alert("رکورد ثبت شد", res.data.message, "success")
       actions.resetForm()
-      setRender(last => last+1)
-      
+      setRender(last => last + 1)
+
     }
-    
+
   } catch (error) {
     console.log(error.message);
-    
+
   }
 };
 
@@ -55,20 +57,20 @@ const onSubmit = async(values, actions ,  setRender) => {
 //   { key: 'دسته 1', value: '1' },
 //   { key: 'دسته 2', value: '2' },
 // ];
-const Addcategory = ({setRender}) => {
-  const [ parents , setParents] = useState([])
-  const handleGetParentsCategories = async ()=>{
+const Addcategory = ({ setRender }) => {
+  const [parents, setParents] = useState([])
+  const handleGetParentsCategories = async () => {
     try {
       const res = await GetCategoriesService()
       if (res.status === 200) {
         const allParents = res.data.data
         setParents(allParents.map(p => {
-          return {id: p.id , value: p.title}
+          return { id: p.id, value: p.title }
         }))
 
       }
     } catch (error) {
-      Alert("مشکل !" , "متاسفانه دسته بندی های ولد دریافت نشد" , "warning")
+      Alert("مشکل !", "متاسفانه دسته بندی های ولد دریافت نشد", "warning")
     }
   }
   useEffect(() => {
@@ -92,22 +94,22 @@ const Addcategory = ({setRender}) => {
       >
         <Formik
           initialValues={initialValues}
-          onSubmit={(values , actions )=>onSubmit(values , actions , setRender)}
+          onSubmit={(values, actions) => onSubmit(values, actions, setRender)}
           validationSchema={validationSchema}
         >
           <Form>
             <div className="container">
               <div className="row justify-content-center">
 
-              {parents.length > 0 ? (
-                <FormikControl
-                  className="col-md-6 col-lg-8"
-                  control="select"
-                  options={parents}
-                  name="parent_id"
-                  label="دسته والد"
-                />
-              ) : null}
+                {parents.length > 0 ? (
+                  <FormikControl
+                    className="col-md-6 col-lg-8"
+                    control="select"
+                    options={parents}
+                    name="parent_id"
+                    label="دسته والد"
+                  />
+                ) : null}
 
                 <FormikControl
                   className="col-md-6 col-lg-8"
@@ -150,9 +152,10 @@ const Addcategory = ({setRender}) => {
                     />
                   </div>
                 </div>
-                <div className="btn_box text-center col-12 col-md-6 col-lg-8 mt-4">
-                  <button className="btn btn-primary">ذخیره</button>
-                </div>
+
+                  <div className="btn_box text-center col-12 col-md-6 col-lg-8 mt-4">
+                    <SubmitButton/>
+                  </div>
               </div>
             </div>
           </Form>
