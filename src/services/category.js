@@ -8,6 +8,10 @@ export const GetCategoriesService = (id=null) =>{
 
 }
 
+export const GetSingleCategoryService = (id)=>{
+     return httpsService(`/admin/categories/${id}` , "get")
+}
+
 
 export const createNewCategoryService = (data) =>{
      if (data.image) {
@@ -21,4 +25,10 @@ export const createNewCategoryService = (data) =>{
           data = formdata
      }
      return httpsService("/admin/categories" , "post" , data)
+}
+
+
+export const editCategoryService = (id , data)=>{
+
+     return httpsService(`/admin/categories/${id}` , "put" , data )
 }

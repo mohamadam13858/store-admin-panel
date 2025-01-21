@@ -115,7 +115,7 @@ const PaginatedTable = ({ children, data, dataInfo, additionField, numOfPAge, se
                 aria-label="Next"
                 onClick={() => setCurrentPage(currentPage + 1)}
               >
-                <span aria-hidden="true">&laquo;</span>
+                <span en="true">&laquo;</span>
               </span>
             </li>
           </ul>
