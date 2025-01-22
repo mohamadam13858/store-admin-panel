@@ -6,8 +6,10 @@ import FormikControl from "../../components/form/FormikControl";
 import { Alert } from "../../utils/alerts";
 import {
   createNewCategoryService,
+  getSingleCategoryService
+  ,
+  getCategoriesServiceService,
   getCategoriesService,
-  getSingleCategoryService,
 } from "../../services/category";
 import SpinnerLoad from "../../components/SpinnerLoad";
 import SubmitButton from "../../components/form/SubmitButton";
