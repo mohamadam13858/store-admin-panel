@@ -21,7 +21,7 @@ const Categorytable = () => {
     if (await Confirm('حذف دسته بندی', `ایا از حذف ${rowData.title} اطمینان دارید؟`)) {
       try {
         const res  = await deleteCategoryService(rowData.id)
-        if (res.status === 200 ) {
+        if (res.status == 200 ) {
           setData(data.filter(d =>d.id != rowData.id))
           Alert('انجام شد', 'ok', 'success')
         } 
