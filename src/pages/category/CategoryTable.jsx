@@ -1,77 +1,88 @@
 import React, { useEffect, useState } from "react";
-import { Outlet, useParams } from "react-router-dom";
 import PaginatedTable from "../../components/PaginatedTable";
-import { getCategoriesService } from "../../services/category";
-import { convertDateToJalali } from "../../utils/convertDate";
 import Addcategory from "./AddCategory";
-import Actions from "./tableAdditons/Actions";
+import { getCategoriesService, GetCategoriesService } from "../../services/category";
+import { Alert } from "../../utils/alert";
 import ShowInMenu from "./tableAdditons/ShowInMenu";
+import Actions from "./tableAdditons/Actions";
+import { Outlet, useLocation, useParams } from "react-router-dom";
+import { convertDateToJalali, ConvertDateToJalali } from "../../utils/convertDate";
 
 const Categorytable = () => {
-  const params = useParams();
-  const [data, setData] = useState([]);
-  const [forceRender, setForceRender] = useState(0);
+
+  const [data, setData] = useState([])
+  const [render , setRender] = useState(0)
   const [loading , setLoading] = useState(false)
+  const params = useParams()
+
+
   const handleGetCategories = async () => {
     setLoading(true)
     try {
-      const res = await getCategoriesService(params.categoryId);
+      const res = await getCategoriesService(params.categoryId)
       if (res.status === 200) {
-        setData(res.data.data);
+        setData(res.data.data)
+
       }
     } catch (error) {
-      console.log(error.message);
+      
+
     }finally{
       setLoading(false)
     }
-  };
+  }
 
   useEffect(() => {
-    handleGetCategories();
-  }, [params, forceRender]);
+    handleGetCategories()
+  }, [params , render]);
 
   const dataInfo = [
     { field: "id", title: "#" },
     { field: "title", title: "عنوان محصول" },
-    { field: "parent_id", title: "والد" },
+    ...(data.some(item => item.parent_id) ? [{ field: "parent_id", title: "والد" }] : []),
   ];
+
 
   const additionField = [
     {
-      title: "تاریخ",
-      elements: (rowData) => convertDateToJalali(rowData.created_at),
-    },
+      title: "تاریخ ساخت",
+      elements: (rowData) => convertDateToJalali(rowData.created_at)
+    }
+    ,
     {
       title: "نمایش در منو",
-      elements: (rowData) => <ShowInMenu rowData={rowData} />,
-    },
+      elements: (rowData) => <ShowInMenu rowData={rowData} />
+    }
+    ,
     {
       title: "عملیات",
       elements: (rowData) => <Actions rowData={rowData} />,
-    },
+    }
   ];
 
   const searchParams = {
     title: "جستجو",
     placeholder: "قسمتی از عنوان را وارد کنید",
-    searchField: "title",
-  };
+    searchField: "title"
+  }
 
   return (
     <>
       <Outlet />
-      <PaginatedTable
-        data={data}
-        dataInfo={dataInfo}
-        additionField={additionField}
-        numOfPAge={8}
-        searchParams={searchParams}
-        loading={loading}
-      >
-        <Addcategory setForceRender={setForceRender} />
-      </PaginatedTable>
+        <PaginatedTable
+          data={data}
+          dataInfo={dataInfo}
+          additionField={additionField}
+          numOfPAge={8}
+          searchParams={searchParams}
+          loading={loading}
+        >
+          <Addcategory  setRender={setRender}/>
+        </PaginatedTable>
+
+
     </>
-  );
+  )
 };
 
 export default Categorytable;

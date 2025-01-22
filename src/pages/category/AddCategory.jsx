@@ -6,9 +6,7 @@ import FormikControl from "../../components/form/FormikControl";
 import { Alert } from "../../utils/alerts";
 import {
   createNewCategoryService,
-  getSingleCategoryService
-  ,
-  getCategoriesServiceService,
+  getSingleCategoryService,
   getCategoriesService,
 } from "../../services/category";
 import SpinnerLoad from "../../components/SpinnerLoad";
@@ -17,7 +15,7 @@ import { useParams } from "react-router-dom";
 import { CategoryContext } from "../../context/categoryContext";
 import { initialValues, onSubmit, validationSchema } from "./core";
 
-const Addcategory = ({ setForceRender }) => {
+const Addcategory = ({ setRender }) => {
   const params = useParams();
   const { editId, setEditId } = useContext(CategoryContext);
   const [parents, setParents] = useState([]);
@@ -103,7 +101,7 @@ const Addcategory = ({ setForceRender }) => {
         <Formik
           initialValues={reInitialValues || initialValues}
           onSubmit={(values, actions) =>
-            onSubmit(values, actions, setForceRender, editId)
+            onSubmit(values, actions, setRender, editId)
           }
           validationSchema={validationSchema}
           enableReinitialize
