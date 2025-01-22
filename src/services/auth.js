@@ -1,19 +1,16 @@
-import httpsService from "./httpsService"
+import httpService from "./httpService";
 
+export const loginService = (values) => {
+  return httpService("/auth/login", "post", {
+    ...values,
+    remember: values.remember ? 1 : 0,
+  });
+};
 
-
-export const loginService = (values) =>{
-    return  httpsService('/auth/login' , 'post' , {
-        ...values,
-        remember:values.remember ? 1 : 0
-      })
+export const logoutService = ()=>{
+    return httpService("/auth/logout", "get")
 }
-
-export const logoutSernice = () => {
-    return httpsService("/auth/logout" , "get")
-}
-
 
 export const getUserService = ()=>{
-    return httpsService("/auth/user" , "get")
+    return httpService("/auth/user", "get")
 }

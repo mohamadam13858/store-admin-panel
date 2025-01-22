@@ -34,16 +34,16 @@ export const onSubmit = async (values, actions, setRender , editId ) => {
         }
         if (editId) {
             const res = await editCategoryService(editId , values) 
-            if (res.status === 200) {
+            if (res.status == 200) {
                 Alert("ویرایش رکورد" , res.data.message , "success")
-                setRender(last => last + 1)
+                setRender((last) => last + 1)
             }
         }else{
             const res = await createNewCategoryService(values)
-            if (res.status === 201) {
+            if (res.status == 201) {
                 Alert("رکورد ثبت شد", res.data.message, "success")
                 actions.resetForm()
-                setRender(last => last + 1)
+                setRender((last) => last + 1)
     
             }
         }

@@ -2,10 +2,10 @@ import React from "react";
 import { FastField, Form, Formik } from "formik";
 import * as Yup from "yup";
 import AuthFormikControl from "../../components/authForm/AuthFormikControl";
-import axios from 'axios'
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Alert } from "../../utils/alert";
-import httpsService from "../../services/httpsService";
+import { Alert } from "../../utils/alerts";
+import httpService from "../../services/httpService";
 import { loginService } from "../../services/auth";
 
 const initialValues = {
@@ -13,21 +13,20 @@ const initialValues = {
   password: "",
   remember: false,
 };
-const onSubmit = async(values, submitMethods, navigate) => {
+const onSubmit = async (values, submitMethods, navigate) => {
   try {
-  const res = await loginService(values)
-  if (res.status == 200) {
-    localStorage.setItem('loginToken' , JSON.stringify(res.data));
-    navigate('/')
-  }else{
-    Alert('متاسفم !' , res.data.message , 'error')
+    const res = await loginService(values);
+    if (res.status == 200) {
+      localStorage.setItem("loginToken", JSON.stringify(res.data));
+      navigate("/");
+    } else {
+      Alert("متاسفم...!", res.data.message, "error");
+    }
+    submitMethods.setSubmitting(false);
+  } catch (error) {
+    submitMethods.setSubmitting(false);
+    Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
   }
-  submitMethods.setSubmitting(false)
-
-} catch (error) {
-  submitMethods.setSubmitting(false)
-  Alert("متاسفم !"  , "متاسفانه مشکلی سمت سرور رخ داد" , "error")
-}
 };
 const validationSchema = Yup.object({
   phone: Yup.number().required("لطفا این قسمت را پر کنید"),
@@ -38,15 +37,16 @@ const validationSchema = Yup.object({
 });
 
 const Login = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={(values , submitMethods)=>onSubmit(values, submitMethods , navigate)}
+      onSubmit={(values, submitMethods) =>
+        onSubmit(values, submitMethods, navigate)
+      }
       validationSchema={validationSchema}
     >
       {(formik) => {
-        console.log(formik);
         return (
           <div className="wrap-login100">
             <Form className="login100-form validate-form pos-relative d-flex flex-column align-items-center justify-content-center">
@@ -76,11 +76,13 @@ const Login = () => {
                 label="مرا بخاطر بسپارید"
               />
 
-
               <div className="container-login100-form-btn">
-                <button className="login100-form-btn" disabled={formik.isSubmitting}>
-                  {formik.isSubmitting ? 'لطفا صبر کنید' : 'ورود'}
-                  </button>
+                <button
+                  className="login100-form-btn "
+                  disabled={formik.isSubmitting}
+                >
+                  {formik.isSubmitting ? "لطفا صبر کنید..." : "ورود"}
+                </button>
               </div>
             </Form>
             <div className="login100-pic js-tilt" data-tilt>

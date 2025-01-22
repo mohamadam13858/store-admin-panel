@@ -1,10 +1,5 @@
-import jMoment from "moment-jalaali";
+import jMoment from 'jalali-moment'
 
-export const ConvertDateToJalali = (date) => {
-    try {
-        return jMoment(date).format("jYYYY/jMM/jDD");
-    } catch (error) {
-        console.error("Error converting date to Jalali:", error);
-        return null;
-    }
+export const convertDateToJalali =(date)=>{
+    return jMoment(date).format('jYYYY/jMM/jDD')
 }

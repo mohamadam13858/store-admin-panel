@@ -1,6 +1,7 @@
 import { ErrorMessage, FastField } from "formik";
 import React from "react";
 import FormikError from "./FormikError";
+
 const Select = ({options, name, label, className}) => {
   return (
         <div className={`col-12 ${className}`}>
@@ -17,4 +18,5 @@ const Select = ({options, name, label, className}) => {
         </div>
   );
 };
+
 export default Select;

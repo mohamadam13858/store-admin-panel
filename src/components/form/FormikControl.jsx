@@ -1,16 +1,16 @@
-import Switch from "../authForm/Switch"
-import File from "./File"
-import Inputt from "./Input"
-import Select from "./Select"
-import Textarea from "./Textarea"
-
+import React from 'react';
+import File from './File';
+import Input from './Input';
+import Select from './Select';
+import Switch from './Switch';
+import Textarea from './Textarea';
 
 const FormikControl = (props) => {
     switch (props.control) {
         case 'select':
             return <Select {...props}/>
         case 'input':
-            return <Inputt {...props}/>
+            return <Input {...props}/>
         case 'textarea':
             return <Textarea {...props}/>
         case 'file':

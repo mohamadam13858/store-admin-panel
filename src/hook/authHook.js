@@ -5,7 +5,7 @@ import { getUserService } from "../services/auth";
 export const useIsLogin = ()=>{
     const [isLogin, setIsLogin] = useState(false);
     const [loading, setLoading] = useState(true);
-    const handleCheckLogin = async()=>{
+    const handleCheckLogin = async ()=>{
       try {
         const res = await getUserService()
         setIsLogin(res.status == 200 ? true : false);

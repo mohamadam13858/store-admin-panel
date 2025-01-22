@@ -7,7 +7,7 @@ const ModalsContainer = ({children, id, fullScreen, title}) => {
         className="modal fade"
         id={id}
         tabIndex="-1"
-        en="true"
+        aria-hidden="true"
       >
         <div className={`modal-dialog ${fullScreen ? "modal-fullscreen" : ""}`}>
           <div className="modal-content">

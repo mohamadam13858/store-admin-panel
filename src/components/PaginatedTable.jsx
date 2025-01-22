@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react";
-import Spinnerload from "./spinnerload";
-const PaginatedTable = ({ children, data, dataInfo, additionField, numOfPAge, searchParams, loading }) => {
+import SpinnerLoad from "./SpinnerLoad";
+const PaginatedTable = ({
+  children,
+  data,
+  dataInfo,
+  additionField,
+  numOfPAge,
+  searchParams,
+  loading,
+}) => {
   const [initData, setIninData] = useState(data);
   const [tableData, setTableData] = useState([]);
   const [currentPage, setCurrentPage] = useState(2);
@@ -10,7 +18,6 @@ const PaginatedTable = ({ children, data, dataInfo, additionField, numOfPAge, se
 
   useEffect(() => {
     let pCount = Math.ceil(initData.length / numOfPAge);
-    console.log(pCount);
     setPageCount(pCount);
     let pArr = [];
     for (let i = 1; i <= pCount; i++) pArr = [...pArr, i];
@@ -24,9 +31,11 @@ const PaginatedTable = ({ children, data, dataInfo, additionField, numOfPAge, se
   }, [currentPage, initData]);
 
   useEffect(() => {
-    setIninData(data.filter(d => d[searchParams.searchField].includes(searchChar)))
-    setCurrentPage(1)
-  }, [searchChar, data])
+    setIninData(
+      data.filter((d) => d[searchParams.searchField].includes(searchChar))
+    );
+    setCurrentPage(1);
+  }, [searchChar, data]);
   return (
     <>
       <div className="row justify-content-between">
@@ -45,42 +54,40 @@ const PaginatedTable = ({ children, data, dataInfo, additionField, numOfPAge, se
           {children}
         </div>
       </div>
-
-      {
-        loading ? (
-
-          <Spinnerload colorClass={"text-primary"}/>
-
-        ) : data.length ? (
-              <table className="table table-responsive text-center table-hover table-bordered">
-                <thead className="table-secondary">
-                  <tr>
-                    {dataInfo.map((i) => (
-                      <th key={i.field}>{i.title}</th>
-                    ))}
-                    {additionField ? additionField.map((a, index) => (
-                      <th key={a.id + "__" + index}>{a.title}</th>
-                    )) : null}
-                  </tr>
-                </thead>
-                <tbody>
-                  {tableData.map((d) => (
-                    <tr key={d.id}>
-                      {dataInfo.map((i) => (
-                        <td key={i.field + "_" + d.id}>{d[i.field]}</td>
-                      ))}
-                      {additionField ? additionField.map((a, index) => (
-                        <td key={a.id + "__" + index}>{a.elements(d)}</td>
-                      )) : null}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            ) : (
-              <h5 className=" text-center text-danger my-5">هیچ دسته بندی پیدا نشد</h5>
-            )
-          }
-    
+      {loading ? (
+        <SpinnerLoad colorClass={"text-primary"} />
+      ) : data.length ? (
+        <table className="table table-responsive text-center table-hover table-bordered">
+          <thead className="table-secondary">
+            <tr>
+              {dataInfo.map((i) => (
+                <th key={i.field}>{i.title}</th>
+              ))}
+              {additionField
+                ? additionField.map((a, index) => (
+                    <th key={a.id + "__" + index}>{a.title}</th>
+                  ))
+                : null}
+            </tr>
+          </thead>
+          <tbody>
+            {tableData.map((d) => (
+              <tr key={d.id}>
+                {dataInfo.map((i) => (
+                  <td key={i.field + "_" + d.id}>{d[i.field]}</td>
+                ))}
+                {additionField
+                  ? additionField.map((a, index) => (
+                      <td key={a.id + "___" + index}>{a.elements(d)}</td>
+                    ))
+                  : null}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <h5 className="text-center my-5 text-danger">هیچ دسته بندی یافت نشد</h5>
+      )}
       {pages.length > 1 ? (
         <nav
           aria-label="Page navigation example"
@@ -89,8 +96,9 @@ const PaginatedTable = ({ children, data, dataInfo, additionField, numOfPAge, se
           <ul className="pagination dir_ltr">
             <li className="page-item">
               <span
-                className={`page-link pointer ${currentPage == 1 ? "disabled" : ""
-                  }`}
+                className={`page-link pointer ${
+                  currentPage == 1 ? "disabled" : ""
+                }`}
                 aria-label="Previous"
                 onClick={() => setCurrentPage(currentPage - 1)}
               >
@@ -100,8 +108,9 @@ const PaginatedTable = ({ children, data, dataInfo, additionField, numOfPAge, se
             {pages.map((page) => (
               <li className="page-item" key={page}>
                 <span
-                  className={`page-link pointer ${currentPage == page ? "alert-success" : ""
-                    }`}
+                  className={`page-link pointer ${
+                    currentPage == page ? "alert-success" : ""
+                  }`}
                   onClick={() => setCurrentPage(page)}
                 >
                   {page}
@@ -110,12 +119,13 @@ const PaginatedTable = ({ children, data, dataInfo, additionField, numOfPAge, se
             ))}
             <li className="page-item">
               <span
-                className={`page-link pointer ${currentPage == pageCount ? "disabled" : ""
-                  }`}
+                className={`page-link pointer ${
+                  currentPage == pageCount ? "disabled" : ""
+                }`}
                 aria-label="Next"
                 onClick={() => setCurrentPage(currentPage + 1)}
               >
-                <span en="true">&laquo;</span>
+                <span aria-hidden="true">&laquo;</span>
               </span>
             </li>
           </ul>
