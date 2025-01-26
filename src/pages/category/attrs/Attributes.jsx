@@ -4,17 +4,19 @@ import PaginatedTable from '../../../components/PaginatedTable';
 import ShowInFilter from './ShowInFilter';
 import AttrActions from './AttrActions';
 import PrevPageButton from '../../../components/PrevPageButton';
-import { addCategoryAttrService, getCategoryAttuService } from '../../../services/categoryAttr';
+import { addCategoryAttrService, editCategoryAttrService, getCategoryAttuService } from '../../../services/categoryAttr';
 import * as Yup from "yup";
 import { Form, Formik } from 'formik';
 import { unix } from 'moment-jalaali';
 import FormikControl from '../../../components/form/FormikControl';
 import SubmitButton from '../../../components/form/SubmitButton';
 import { Alert } from '../../../utils/alerts';
-const AddAttributes = () => {
+const Attributes = () => {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
     const location = useLocation()
+    const [attrToEdit, setAttrToEdit] = useState(null)
+    const [reInitialValues, setReInitialValues] = useState(null)
 
 
     const initialValues = {
@@ -24,23 +26,38 @@ const AddAttributes = () => {
     }
 
 
-    const onSubmit = async (values, actions, catId , setData) => {
+    const onSubmit = async (values, actions, catId, setData, attrToEdit, setAttrToEdit) => {
 
         try {
             values = {
                 ...values,
                 in_filter: values.in_filter ? 1 : 0
             }
-            const res = await addCategoryAttrService(catId, values)
-            if (res.status === 201) {
-                Alert("انجام شد" , res.data.message , "success")
-                setData(oldData => [...oldData , res.data.data])
-                actions.resetForm()
+            if (attrToEdit) {
+                const res = await editCategoryAttrService(attrToEdit.id, values)
+                if (res.status === 200) {
+                    setData(oldData =>{
+                        const newData = [...oldData]
+                        const index = newData.findIndex(d=>d.id === attrToEdit.id)
+                        newData[index] = res.data.data
+                        return newData
+                    })
+                    Alert("انجام شد", res.data.message, "success")
+                    setAttrToEdit(null)
+                }
+            } else {
+
+                const res = await addCategoryAttrService(catId, values)
+                if (res.status === 201) {
+                    Alert("انجام شد", res.data.message, "success")
+                    setData(oldData => [...oldData, res.data.data])
+                    actions.resetForm()
+                }
             }
 
         } catch (error) {
             console.log(error);
-            
+
 
         }
     }
@@ -74,7 +91,7 @@ const AddAttributes = () => {
         ,
         {
             title: "عملیات",
-            elements: (rowData) => <AttrActions rowData={rowData} />,
+            elements: (rowData) => <AttrActions rowData={rowData} attrToEdit={attrToEdit} setAttrToEdit={setAttrToEdit} />,
         }
     ];
     const searchParams = {
@@ -105,11 +122,24 @@ const AddAttributes = () => {
         handleGetCategoryAttrs()
 
     }, [])
+
+    useEffect(() => {
+        if (attrToEdit) {
+            setReInitialValues({
+                title: attrToEdit.title,
+                unit: attrToEdit.unit,
+                in_filter: !attrToEdit.in_filter
+            });
+        } else {
+            setReInitialValues(null)
+        }
+    }, [attrToEdit]);
+
     return (
         <>
             <h4 className=' text-center my-3'>مدیریت ویژگی های دسته بندی </h4>
             <h6 className=' text-center my-3'>
-                ویژگس های :
+                ویژگی های :
                 <span className=' text-primary'>
                     {location.state.categoryData.title}
                 </span>
@@ -117,12 +147,13 @@ const AddAttributes = () => {
             <div className="container">
                 <div className="row justify-content-center">
                     <Formik
-                        initialValues={initialValues}
-                        onSubmit={(values, actions) => onSubmit(values, actions, location.state.categoryData.id , setData)}
+                        initialValues={reInitialValues || initialValues}
+                        onSubmit={(values, actions) => onSubmit(values, actions, location.state.categoryData.id, setData, attrToEdit, setAttrToEdit)}
                         validationSchema={validationSchema}
+                        enableReinitialize
                     >
                         <Form>
-                            <div className="row my-3">
+                            <div className={`row my-3${attrToEdit ? " alert-danger danger_shadow " : ""} justify-content-center align-items-center is_inline`}>
                                 <FormikControl
                                     control="input"
                                     type="text"
@@ -149,6 +180,12 @@ const AddAttributes = () => {
                                 </div>
                                 <div className="col-4 col-lg-2 d-flex justify-content-center align-items-start my-1">
                                     <SubmitButton />
+                                    {attrToEdit ? (
+                                        <button className=' byn btn-sm btn-secondary me-2 ' onClick={() => setAttrToEdit(null)}>
+                                            انصراف
+                                        </button>
+
+                                    ) : null}
                                 </div>
                             </div>
                         </Form>
@@ -175,4 +212,4 @@ const AddAttributes = () => {
     );
 }
 
-export default AddAttributes;
+export default Attributes;
