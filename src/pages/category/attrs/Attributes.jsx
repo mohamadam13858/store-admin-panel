@@ -4,13 +4,13 @@ import PaginatedTable from '../../../components/PaginatedTable';
 import ShowInFilter from './ShowInFilter';
 import AttrActions from './AttrActions';
 import PrevPageButton from '../../../components/PrevPageButton';
-import { addCategoryAttrService, editCategoryAttrService, getCategoryAttuService } from '../../../services/categoryAttr';
+import { addCategoryAttrService, deleteCategoryAttrService, editCategoryAttrService, getCategoryAttuService } from '../../../services/categoryAttr';
 import * as Yup from "yup";
 import { Form, Formik } from 'formik';
 import { unix } from 'moment-jalaali';
 import FormikControl from '../../../components/form/FormikControl';
 import SubmitButton from '../../../components/form/SubmitButton';
-import { Alert } from '../../../utils/alerts';
+import { Alert, Confirm } from '../../../utils/alerts';
 const Attributes = () => {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
@@ -91,7 +91,7 @@ const Attributes = () => {
         ,
         {
             title: "عملیات",
-            elements: (rowData) => <AttrActions rowData={rowData} attrToEdit={attrToEdit} setAttrToEdit={setAttrToEdit} />,
+            elements: (rowData) => <AttrActions rowData={rowData} attrToEdit={attrToEdit} setAttrToEdit={setAttrToEdit} handleDeleteCategoryAttr={handleDeleteCategoryAttr} />,
         }
     ];
     const searchParams = {
@@ -117,6 +117,20 @@ const Attributes = () => {
         }
     }
 
+    const handleDeleteCategoryAttr = async(attr)=>{
+        if (await Confirm(`حذف ${attr.title}` , "ایا از حذف این رکورداطمینان دارید؟") ) {
+            try {
+                const res = await deleteCategoryAttrService(attr.id)
+                if (res.status === 200) {
+                    Alert("انجام شد" , res.data.message , "success")
+                    setData(oldData=>[...oldData].filter(d=>d.id != attr.id))
+                }
+            } catch (error) {
+                console.log(error);
+                
+            }
+        }
+    }
 
     useEffect(() => {
         handleGetCategoryAttrs()
