@@ -4,75 +4,15 @@ import PaginatedTable from '../../../components/PaginatedTable';
 import ShowInFilter from './ShowInFilter';
 import AttrActions from './AttrActions';
 import PrevPageButton from '../../../components/PrevPageButton';
-import { addCategoryAttrService, deleteCategoryAttrService, editCategoryAttrService, getCategoryAttuService } from '../../../services/categoryAttr';
-import * as Yup from "yup";
-import { Form, Formik } from 'formik';
-import { unix } from 'moment-jalaali';
-import FormikControl from '../../../components/form/FormikControl';
-import SubmitButton from '../../../components/form/SubmitButton';
+import {  deleteCategoryAttrService, getCategoryAttuService } from '../../../services/categoryAttr';
 import { Alert, Confirm } from '../../../utils/alerts';
+import AddAttr from './AddAttr';
 const Attributes = () => {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
     const location = useLocation()
     const [attrToEdit, setAttrToEdit] = useState(null)
     const [reInitialValues, setReInitialValues] = useState(null)
-
-
-    const initialValues = {
-        title: "",
-        unit: "",
-        in_filter: false
-    }
-
-
-    const onSubmit = async (values, actions, catId, setData, attrToEdit, setAttrToEdit) => {
-
-        try {
-            values = {
-                ...values,
-                in_filter: values.in_filter ? 1 : 0
-            }
-            if (attrToEdit) {
-                const res = await editCategoryAttrService(attrToEdit.id, values)
-                if (res.status === 200) {
-                    setData(oldData =>{
-                        const newData = [...oldData]
-                        const index = newData.findIndex(d=>d.id === attrToEdit.id)
-                        newData[index] = res.data.data
-                        return newData
-                    })
-                    Alert("انجام شد", res.data.message, "success")
-                    setAttrToEdit(null)
-                }
-            } else {
-
-                const res = await addCategoryAttrService(catId, values)
-                if (res.status === 201) {
-                    Alert("انجام شد", res.data.message, "success")
-                    setData(oldData => [...oldData, res.data.data])
-                    actions.resetForm()
-                }
-            }
-
-        } catch (error) {
-            console.log(error);
-
-
-        }
-    }
-
-
-
-    const validationSchema = Yup.object({
-        title: Yup.string()
-            .required("لطفا این قسمت را پر کنید")
-            .matches(/^[\u0600-\u06FF\sA-Za-z0-9@!%$?&]+$/, "لطفا از حروف و اعداد استفاده کنید"),
-        unit: Yup.string().required("لطفا این قسمت را پر کنید").matches(/^[\u0600-\u06FF\sA-Za-z0-9@!%$?&]*$/, "لطفا از حروف و اعداد استفاده کنید"),
-        in_filter: Yup.boolean(),
-    });
-
-
 
 
     const dataInfo = [
@@ -94,6 +34,8 @@ const Attributes = () => {
             elements: (rowData) => <AttrActions rowData={rowData} attrToEdit={attrToEdit} setAttrToEdit={setAttrToEdit} handleDeleteCategoryAttr={handleDeleteCategoryAttr} />,
         }
     ];
+
+
     const searchParams = {
         title: "جستجو",
         placeholder: "قسمتی از عنوان را وارد کنید",
@@ -142,7 +84,7 @@ const Attributes = () => {
             setReInitialValues({
                 title: attrToEdit.title,
                 unit: attrToEdit.unit,
-                in_filter: !attrToEdit.in_filter
+                in_filter: attrToEdit.in_filter ? 1 : 0
             });
         } else {
             setReInitialValues(null)
@@ -160,50 +102,9 @@ const Attributes = () => {
             </h6>
             <div className="container">
                 <div className="row justify-content-center">
-                    <Formik
-                        initialValues={reInitialValues || initialValues}
-                        onSubmit={(values, actions) => onSubmit(values, actions, location.state.categoryData.id, setData, attrToEdit, setAttrToEdit)}
-                        validationSchema={validationSchema}
-                        enableReinitialize
-                    >
-                        <Form>
-                            <div className={`row my-3${attrToEdit ? " alert-danger danger_shadow " : ""} justify-content-center align-items-center is_inline`}>
-                                <FormikControl
-                                    control="input"
-                                    type="text"
-                                    name="title"
-                                    label="عنوان"
-                                    className="col-md-6 col-lg-4 my-1"
-                                    placeholder="عنوان ویژگی جدید"
-                                />
-                                <FormikControl
-                                    control="input"
-                                    type="text"
-                                    name="unit"
-                                    label="واحد"
-                                    className="col-md-6 col-lg-4 my-1"
-                                    placeholder="واحد ویژگی جدید"
-                                />
 
-                                <div className="col-8 col-lg-2 my-1">
-                                    <FormikControl
-                                        control="switch"
-                                        name="in_filter"
-                                        label="نمایش در فیلتر"
-                                    />
-                                </div>
-                                <div className="col-4 col-lg-2 d-flex justify-content-center align-items-start my-1">
-                                    <SubmitButton />
-                                    {attrToEdit ? (
-                                        <button className=' byn btn-sm btn-secondary me-2 ' onClick={() => setAttrToEdit(null)}>
-                                            انصراف
-                                        </button>
+                    <AddAttr reInitialValues={reInitialValues} location={location} setData={setData} attrToEdit={attrToEdit} setAttrToEdit={setAttrToEdit} />
 
-                                    ) : null}
-                                </div>
-                            </div>
-                        </Form>
-                    </Formik>
                     <hr />
 
                     <PaginatedTable
