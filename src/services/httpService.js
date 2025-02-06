@@ -6,10 +6,10 @@ export const apiPath = config.onlinePath
 
 axios.interceptors.response.use((res)=>{
     if (res.status != 200 && res.status != 201) {
-        if (typeof(res.data) == "object") {
+        if (typeof(res.data) == 'object') {
             let message = ""
             for (const key in res.data) {
-                message = message+`${key} : ${res.data[key]}`
+                message = message + `${key} : ${res.data[key]}`
             }
             res.data.message = message
         }

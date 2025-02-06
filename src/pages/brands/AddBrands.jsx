@@ -1,9 +1,10 @@
 import React from 'react';
 import ModalsContainer from '../../components/ModalsContainer';
-import { Form, Formik } from 'formik';
+import {Formik, Form} from 'formik'
 import { initialValues, onSubmit, validationSchema } from './core';
 import FormikControl from '../../components/form/FormikControl';
 import SubmitButton from '../../components/form/SubmitButton';
+
 
 const AddBrands = ({setData}) => {
     return (
@@ -18,43 +19,45 @@ const AddBrands = ({setData}) => {
             >
                 <div className="container">
                     <div className="row justify-content-center">
-                        <Formik 
+                        <Formik
                         initialValues={initialValues}
-                        onSubmit={(values , actions)=>onSubmit(values , actions , setData )}
+                        onSubmit={(values, actions)=>onSubmit(values, actions, setData)}
                         validationSchema={validationSchema}
                         >
                             <Form>
                                 <FormikControl
-                                control="input"
-                                type="text"
-                                name="original_name"
-                                label="عنوان لاتین"
-                                placeholder="کیبورد را در حالت لاتین قرار دهید"
+                                    control="input"
+                                    type="text"
+                                    name="original_name"
+                                    label="عنوان لاتین"
+                                    placeholder="کیبرد را در حالت لاتین قرار دهید"
                                 />
                                 <FormikControl
-                                control="input"
-                                type="text"
-                                name="persian_name"
-                                label="عنوان فارسی"
-                                placeholder="کیبورد را در حالت فارسی قرار دهید"
+                                    control="input"
+                                    type="text"
+                                    name="persian_name"
+                                    label="عنوان فارسی"
+                                    placeholder="کیبرد را در حالت فارسی قرار دهید"
                                 />
                                 <FormikControl
-                                control="textarea"
-                                name="descriptions"
-                                label="توضیحات"
-                                placeholder="توضیحات"
+                                    control="textarea"
+                                    name="descriptions"
+                                    label="توضیحات"
+                                    placeholder="توضیحات"
                                 />
                                 <FormikControl
-                                control="file"
-                                name="logo"
-                                label="تصویر"
-                                placeholder="تصویر"
+                                    control="file"
+                                    name="logo"
+                                    label="تصویر"
+                                    placeholder="تصویر"
                                 />
-                                <div className='btn_box text-center col-12'>
-                                    <SubmitButton/>
+
+                                <div className="btn_box text-center col-12">
+                                    <SubmitButton />
                                 </div>
                             </Form>
                         </Formik>
+
                     </div>
                 </div>
             </ModalsContainer>

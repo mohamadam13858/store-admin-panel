@@ -1,21 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
 import ModalsContainer from "../../components/ModalsContainer";
-import * as Yup from "yup";
-import { FastField, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import FormikControl from "../../components/form/FormikControl";
 import { Alert } from "../../utils/alerts";
 import {
-  createNewCategoryService,
-  getSingleCategoryService,
   getCategoriesService,
+  getSingleCategoryService,
 } from "../../services/category";
-import SpinnerLoad from "../../components/SpinnerLoad";
 import SubmitButton from "../../components/form/SubmitButton";
 import { useParams } from "react-router-dom";
 import { CategoryContext } from "../../context/categoryContext";
 import { initialValues, onSubmit, validationSchema } from "./core";
 
-const Addcategory = ({ setRender }) => {
+const Addcategory = ({ setForceRender }) => {
   const params = useParams();
   const { editId, setEditId } = useContext(CategoryContext);
   const [parents, setParents] = useState([]);
@@ -65,7 +62,7 @@ const Addcategory = ({ setRender }) => {
         parent_id: editCategory.parent_id || "",
         title: editCategory.title,
         description: editCategory.description,
-        image: "",
+        image: null,
         is_active: editCategory.is_active ? true : false,
         show_in_menu: editCategory.show_in_menu ? true : false,
       });
@@ -101,7 +98,7 @@ const Addcategory = ({ setRender }) => {
         <Formik
           initialValues={reInitialValues || initialValues}
           onSubmit={(values, actions) =>
-            onSubmit(values, actions, setRender, editId)
+            onSubmit(values, actions, setForceRender, editId)
           }
           validationSchema={validationSchema}
           enableReinitialize
