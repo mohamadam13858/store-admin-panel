@@ -1,7 +1,7 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
 
-const ModalsContainer = ({children, id, fullScreen, title}) => {
+const ModalsContainer = ({children, id, fullScreen, title , className}) => {
     return createPortal(
         <div
         className="modal fade"
@@ -12,7 +12,7 @@ const ModalsContainer = ({children, id, fullScreen, title}) => {
         <div className={`modal-dialog ${fullScreen ? "modal-fullscreen" : ""}`}>
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title flex-fill" id="exampleModalLabel">
+              <h5 className={`modal-title flex-fill ${className} `} id="exampleModalLabel">
                 {title}
               </h5>
               <button

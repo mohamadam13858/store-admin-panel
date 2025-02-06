@@ -78,8 +78,7 @@ const Login = () => {
 
               <div className="container-login100-form-btn">
                 <button
-                  className="login100-form-btn "
-                  disabled={formik.isSubmitting}
+                  className={`login100-form-btn ${formik.isSubmitting ? "disabled" : ""} `}
                 >
                   {formik.isSubmitting ? "لطفا صبر کنید..." : "ورود"}
                 </button>
