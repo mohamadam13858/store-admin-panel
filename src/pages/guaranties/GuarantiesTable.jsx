@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import AddGuaranty from './AddGuaranty';
 import Actions from './tableAdditional/Actions';
-import { getAllGuarantiesService } from '../../services/guaranties';
+import { deleteguarantiesService, getAllGuarantiesService } from '../../services/guaranties';
 import PaginatedTable from '../../components/PaginatedTable';
+import { Alert, Confirm } from '../../utils/alerts';
 
 const GuarantiesTable = () => {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
-    const [guarantiesToEdit , setGuarantiesToEdit] = useState([])
+    const [guarantiesToEdit, setGuarantiesToEdit] = useState([])
 
 
     const dataInfo = [
-        {field: "id" , title:"#"},
+        { field: "id", title: "#" },
         { field: "title", title: "عنوان" },
         { field: "descriptions", title: "توضیحات" },
         { field: "length", title: "مدت گارانتی" },
@@ -20,7 +21,7 @@ const GuarantiesTable = () => {
     const additionField = [
         {
             title: "عملیات",
-            elements: (rowData) => <Actions rowData={rowData} setGuarantiesToEdit={setGuarantiesToEdit} />,
+        elements: (rowData) => <Actions rowData={rowData} setGuarantiesToEdit={setGuarantiesToEdit} handleDeleteGuaranties={handleDeleteGuaranties} />,
         },
     ];
 
@@ -38,8 +39,18 @@ const GuarantiesTable = () => {
             setData(res.data.data)
         }
     }
+
+    const handleDeleteGuaranties = async (guaranties) => {
+        if (await Confirm("حذف گارانتی", `ایا از حذف ${guaranties.title} اطمینان دارید`)) {
+            const res = await deleteguarantiesService(guaranties.id)
+            if (res.status === 200) {
+                Alert("انجام شد", res.data.message, "success")
+                setData((lastData) => lastData.filter((d) => d.id != guaranties.id))
+            }
+        }
+    }
     useEffect(() => {
-         
+
         handleGetAllGuaranties()
 
     }, []);
@@ -55,7 +66,7 @@ const GuarantiesTable = () => {
                 searchParams={searchParams}
                 loading={loading}
             >
-                <AddGuaranty setData={setData} />
+                <AddGuaranty setData={setData} guarantiesToEdit={guarantiesToEdit} setGuarantiesToEdit={setGuarantiesToEdit} />
             </PaginatedTable>
         </>
     );

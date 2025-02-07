@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ModalsContainer from '../../components/ModalsContainer';
 import SubmitButton from '../../components/form/SubmitButton';
 import { Form, Formik } from 'formik';
@@ -6,26 +6,42 @@ import FormikControl from '../../components/form/FormikControl';
 import { initialValues, onSubmit, validationSchema } from './core';
 
 
-const AddGuaranty = ({ setData }) => {
+const AddGuaranty = ({ setData, guarantiesToEdit, setGuarantiesToEdit }) => {
+    const [reInitValues, setReInitValues] = useState(null)
 
+    useEffect(() => {
+        if (guarantiesToEdit) setReInitValues({
+            title: guarantiesToEdit.title,
+            descriptions: guarantiesToEdit.descriptions,
+            length: guarantiesToEdit.length,
+            length_unit: guarantiesToEdit.length_unit
+        })
+        else {
+            setReInitValues(null)
+        }
+
+    }, [guarantiesToEdit]);
 
     return (
 
         <>
-            <button className="btn btn-success d-flex justify-content-center align-items-center" data-bs-toggle="modal" data-bs-target="#add_guarantee_modal">
+            <button className="btn btn-success d-flex justify-content-center align-items-center" data-bs-toggle="modal" data-bs-target="#add_guarantee_modal"
+                onClick={() => setGuarantiesToEdit(null)}>
                 <i className="fas fa-plus text-light"></i>
             </button>
             <ModalsContainer
                 id={"add_guarantee_modal"}
-                title={"افزودن گارانتی"}
+                title={guarantiesToEdit ? "ویرایش گارانتی" : "افزودن گارانتی"}
                 fullScreen={false}
+                className={guarantiesToEdit ? "text-warning" : "text-success"}
             >
                 <div className="container">
                     <div className="row justify-content-center">
                         <Formik
-                            initialValues={initialValues}
-                            onSubmit={(values, actions) => onSubmit(values, actions , setData)}
+                            initialValues={reInitValues || initialValues}
+                            onSubmit={(values, actions) => onSubmit(values, actions, setData, guarantiesToEdit)}
                             validationSchema={validationSchema}
+                            enableReinitialize
                         >
                             <Form>
 

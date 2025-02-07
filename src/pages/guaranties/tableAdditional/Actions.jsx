@@ -1,5 +1,5 @@
 import React from "react";
-const Actions = ({rowData , setGuarantiesToEdit}) => {
+const Actions = ({rowData , setGuarantiesToEdit , handleDeleteGuaranties}) => {
   return (
     <>
       <i
@@ -7,7 +7,7 @@ const Actions = ({rowData , setGuarantiesToEdit}) => {
         title="ویرایش گارانتی"
         data-bs-placement="top"
         data-bs-toggle="modal"
-        data-bs-target="#add_brand_modal"
+        data-bs-target="#add_guarantee_modal"
         onClick={()=>setGuarantiesToEdit(rowData)}
       ></i>
 
@@ -16,6 +16,7 @@ const Actions = ({rowData , setGuarantiesToEdit}) => {
         title="حذف گارانتی"
         data-bs-toggle="tooltip"
         data-bs-placement="top"
+        onClick={()=>(handleDeleteGuaranties(rowData))}
       ></i>
     </>
   );

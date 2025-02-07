@@ -1,5 +1,6 @@
-import { addNewGuarantiesService } from "../../services/guaranties";
+import { addNewGuarantiesService, editGuarantiesService } from "../../services/guaranties";
 import * as Yup from "yup";
+import { Alert } from "../../utils/alerts";
 
 
 export const initialValues = {
@@ -9,11 +10,26 @@ export const initialValues = {
     length_unit: ""
 }
 
-export const onSubmit = async (values, actions, setData) => {
-    const res = await addNewGuarantiesService(values)
-    if (res.status === 201) {
-        setData(lastData => [...lastData, res.data.data])
-        actions.resetForm()
+export const onSubmit = async (values, actions, setData, guarantiesToEdit) => {
+    if (guarantiesToEdit) {
+        const res = await editGuarantiesService(guarantiesToEdit.id, values)
+        if (res.status === 200) {
+            Alert('انجام شد', res.data.message, 'success');
+            setData(lastData => {
+              let newData = [...lastData]
+              let index = newData.findIndex(d=>d.id == guarantiesToEdit.id)
+              newData[index] = res.data.data
+              return newData
+            })
+        }
+
+    } else {
+        const res = await addNewGuarantiesService(values)
+        if (res.status === 201) {
+            Alert('انجام شد', res.data.message, 'success');
+            setData(lastData => [...lastData, res.data.data])
+            actions.resetForm()
+        }
     }
 
 }
