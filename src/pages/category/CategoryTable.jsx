@@ -12,7 +12,7 @@ const Categorytable = () => {
   const params = useParams();
   const [data, setData] = useState([]);
   const [forceRender, setForceRender] = useState(0);
-  const [loading , setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
   const handleGetCategories = async () => {
     setLoading(true)
     try {
@@ -22,25 +22,24 @@ const Categorytable = () => {
       }
     } catch (error) {
       console.log(error.message);
-    }finally{
+    } finally {
       setLoading(false)
     }
   };
 
-  const handleDeleteCategory = async (rowData)=>{
+  const handleDeleteCategory = async (rowData) => {
     if (await Confirm('حذف دسته بندی', `آیا از حذف ${rowData.title} اطمینان دارید؟`)) {
-     try {
-       const res = await deleteCategoryService(rowData.id);
-       if (res.status === 200) {
-         setData(data.filter(d=>d.id != rowData.id))
-         Alert('انجام شد', res.data.message, 'success')
-       }
-     } catch (error) {
-       console.log(error);
-     }
+      try {
+        const res = await deleteCategoryService(rowData.id);
+        if (res.status === 200) {
+          setData(data.filter(d => d.id != rowData.id))
+          Alert('انجام شد', res.data.message, 'success')
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
-
   useEffect(() => {
     handleGetCategories();
   }, [params, forceRender]);
@@ -62,7 +61,7 @@ const Categorytable = () => {
     },
     {
       title: "عملیات",
-      elements: (rowData) => <Actions rowData={rowData} handleDeleteCategory={handleDeleteCategory}/>,
+      elements: (rowData) => <Actions rowData={rowData} handleDeleteCategory={handleDeleteCategory} />,
     },
   ];
 

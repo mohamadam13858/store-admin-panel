@@ -21,7 +21,7 @@ const GuarantiesTable = () => {
     const additionField = [
         {
             title: "عملیات",
-        elements: (rowData) => <Actions rowData={rowData} setGuarantiesToEdit={setGuarantiesToEdit} handleDeleteGuaranties={handleDeleteGuaranties} />,
+            elements: (rowData) => <Actions rowData={rowData} setGuarantiesToEdit={setGuarantiesToEdit} handleDeleteGuaranties={handleDeleteGuaranties} />,
         },
     ];
 
@@ -36,6 +36,7 @@ const GuarantiesTable = () => {
         const res = await getAllGuarantiesService()
         res && setLoading(false)
         if (res.status === 200) {
+            Alert("انجام شد", res.data.message, "success")
             setData(res.data.data)
         }
     }

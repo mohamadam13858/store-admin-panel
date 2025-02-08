@@ -1,9 +1,68 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import PaginatedTable from '../../components/PaginatedTable';
+import Actions from './tableAdditional/Actions';
+import AddColor from './AddColor';
+import { Alert } from '../../utils/alerts';
+import { getAllColorsService } from '../../services/colors';
 
 const ColorsTable = () => {
+    const [data, setData] = useState([])
+    const [loading, setLoading] = useState(false)
+
+
+
+
+    const dataInfo = [
+        {field: "id" , title: "#"},
+        {field: "title" , title: "عنوان"},
+        {field: "code" , title: "کد رنگ"} 
+
+    ]
+
+    const additionField = [
+
+        {
+            title: "عملیات",
+            elements: (rowData) => <Actions rowData={rowData}/>,
+        },
+
+    ]
+
+    const handleGetAllColors = async() =>{
+        setLoading(true)
+        const res = await getAllColorsService()
+        res && setLoading(false)
+        if (res.status === 200) {
+            Alert("انجام شد" , res.data.message , "success")
+             setData(res.data.data)
+        }
+    }
+
+     useEffect(() => {
+
+        handleGetAllColors()
+
+     }, []);
+
+
+    const searchParams = {
+        title: "جستجو",
+        placeholder: "قسمتی از عنوان را وارد کنید",
+        searchField: "title",
+    }
     return (
         <>
-            <table className="table table-responsive text-center table-hover table-bordered">
+            <PaginatedTable
+                data={data}
+                dataInfo={dataInfo}
+                additionField={additionField}
+                numOfPAge={8}
+                searchParams={searchParams}
+                loading={loading}
+            >
+                <AddColor setData={setData}/>
+            </PaginatedTable>
+            {/* <table className="table table-responsive text-center table-hover table-bordered">
                 <thead className="table-secondary">
                     <tr>
                         <th>#</th>
@@ -22,7 +81,6 @@ const ColorsTable = () => {
                             <div className="w-100 h-100 d-block" style={{ background: "#000", color: "#000" }}>...</div>
                         </td>
                         <td>
-                            <i className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip" title="حذف رنگ" data-bs-toggle="tooltip" data-bs-placement="top"></i>
                         </td>
                     </tr>
                     <tr>
@@ -33,7 +91,6 @@ const ColorsTable = () => {
                             <div className="w-100 h-100 d-block" style={{ background: "#f44336", color: "#f44336" }}>...</div>
                         </td>
                         <td>
-                            <i className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip" title="حذف رنگ" data-bs-toggle="tooltip" data-bs-placement="top"></i>
                         </td>
                     </tr>
                 </tbody>
@@ -54,7 +111,7 @@ const ColorsTable = () => {
                         </a>
                     </li>
                 </ul>
-            </nav>
+            </nav> */}
         </>
     );
 }

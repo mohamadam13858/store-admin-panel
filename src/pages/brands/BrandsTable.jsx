@@ -43,6 +43,7 @@ const Brandstable = () => {
     console.log(res);
     res && setLoading(false)
     if (res.status === 200) {
+      Alert("انجام شد", res.data.message, "success")
       setData(res.data.data);
     }
   }
@@ -51,8 +52,8 @@ const Brandstable = () => {
     if (await Confirm("حذف برند ", `ایا از حذف ${brand.original_name} اطمینان دارید؟`)) {
       const res = await deleteBrandService(brand.id)
       if (res.status === 200) {
-        Alert("انجام شد" , res.data.message, "success")
-        setData((lastData)=> lastData.filter((d)=> d.id != brand.id))
+        Alert("انجام شد", res.data.message, "success")
+        setData((lastData) => lastData.filter((d) => d.id != brand.id))
       }
     }
   }
