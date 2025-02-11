@@ -2,47 +2,63 @@ import React, { useEffect, useState } from 'react';
 import PaginatedTable from '../../components/PaginatedTable';
 import Actions from './tableAdditional/Actions';
 import AddColor from './AddColor';
-import { Alert } from '../../utils/alerts';
-import { getAllColorsService } from '../../services/colors';
+import { Alert, Confirm } from '../../utils/alerts';
+import { deleteColorService, getAllColorsService } from '../../services/colors';
 
 const ColorsTable = () => {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
+    const [colorToEdit, setColorToEdit] = useState(null)
 
 
 
 
     const dataInfo = [
-        {field: "id" , title: "#"},
-        {field: "title" , title: "عنوان"},
-        {field: "code" , title: "کد رنگ"} 
+        { field: "id", title: "#" },
+        { field: "title", title: "عنوان" },
+        { field: "code", title: "کد رنگ" }
 
     ]
 
     const additionField = [
+        {
+            title: "رنگ",
+            elements: (rowData) => <div className=' w-100 h-100 d-block ' style={{ background: rowData.code, color: rowData.code }}>...</div>
+        },
 
         {
             title: "عملیات",
-            elements: (rowData) => <Actions rowData={rowData}/>,
+            elements: (rowData) => <Actions rowData={rowData} setColorToEdit={setColorToEdit} handleDeleteColor={handleDeleteColor} />,
         },
 
     ]
 
-    const handleGetAllColors = async() =>{
+    const handleGetAllColors = async () => {
         setLoading(true)
         const res = await getAllColorsService()
         res && setLoading(false)
         if (res.status === 200) {
-            Alert("انجام شد" , res.data.message , "success")
-             setData(res.data.data)
+            Alert("انجام شد", res.data.message, "success")
+            setData(res.data.data)
         }
     }
 
-     useEffect(() => {
+    const handleDeleteColor = async (color) => {
+        if (await Confirm("حذف رنگ", `ایا از حذف ${color.title} اطمینان دارید؟`)) {
+            const res = await deleteColorService(color.id)
+            if (res.status === 200) {
+                Alert("انجام شد", res.data.message, "success")
+                setData((lastData) => lastData.filter((d) => d.id != color.id))
+            }
+        }
+    }
+
+
+    useEffect(() => {
 
         handleGetAllColors()
 
-     }, []);
+    }, []);
 
 
     const searchParams = {
@@ -60,7 +76,7 @@ const ColorsTable = () => {
                 searchParams={searchParams}
                 loading={loading}
             >
-                <AddColor setData={setData}/>
+                <AddColor setData={setData} colorToEdit={colorToEdit} setColorToEdit={setColorToEdit} />
             </PaginatedTable>
             {/* <table className="table table-responsive text-center table-hover table-bordered">
                 <thead className="table-secondary">

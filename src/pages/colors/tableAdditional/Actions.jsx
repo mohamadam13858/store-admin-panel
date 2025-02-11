@@ -4,7 +4,7 @@ import React from "react";
 
 
 
-const Actions = () => {
+const Actions = ({rowData , setColorToEdit , handleDeleteColor}) => {
     return (
         <>
         <i
@@ -12,7 +12,8 @@ const Actions = () => {
         title="ویرایش رنگ"
         data-bs-placement="top"
         data-bs-toggle="modal"
-        data-bs-target="#add_colors_modal"
+        data-bs-target="#add_color_modal"
+        onClick={()=>setColorToEdit(rowData)}
       ></i>
 
       <i
@@ -20,6 +21,7 @@ const Actions = () => {
         title="حذف رنگ"
         data-bs-toggle="tooltip"
         data-bs-placement="top"
+        onClick={()=>{handleDeleteColor(rowData)}}
       ></i>
         </>
 
