@@ -7,7 +7,7 @@ import * as Yup from "yup";
 
 export const initialValues = {
     title: "",
-    code: "#ffff"
+    code: "#563d7d"
 }
 
 
@@ -40,6 +40,6 @@ export const validationSchema = Yup.object({
         /^[\u0600-\u06FF\sa-zA-Z0-9@!%$?&]+$/,
         "فقط از حروف و اعداد استفاده شود"
       ),
-      code: Yup.string().matches(/^[a-zA-Z0-9@!%$?&]+$/ , "فقط از اعداد و حروف استفاده کنید")
+      code: Yup.string().matches(/^#[0-9a-fA-F]{6}$/, "لطفا یک کد رنگ صحیح وارد کنید (مثلا #ffffff)"),
     
 })
