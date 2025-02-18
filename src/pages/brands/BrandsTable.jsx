@@ -23,7 +23,7 @@ const Brandstable = () => {
     {
       title: "لوگو",
       elements: (rowData) =>
-        rowData.logo ? <img src={apiPath + "/" + rowData.logo} width="40" /> : null,
+        rowData.logo ? <img src={apiPath + "/" + rowData.logo} width="40" /> : '',
     },
     {
       title: "عملیات",

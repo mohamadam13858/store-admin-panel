@@ -30,6 +30,8 @@ import { addNewBrandService, editBrandService } from "../../services/brands";
           setData(lastData=>[...lastData, res.data.data])
       }
     }
+    console.log(values);
+    
   };
   
   export const validationSchema = Yup.object({
