@@ -12,6 +12,12 @@ const PaginatedDataTable = ({
     searchParams,
     handleSearch
 }) => {
+
+
+    const pagePange = 3
+
+
+
     const [pages, setPages] = useState([]);
     let timeout
 
@@ -30,7 +36,7 @@ const PaginatedDataTable = ({
 
     return (
         <>
-            <div className="row justify-content-center">
+            <div className="row justify-content-between">
                 <div className="col-10 col-md-6 col-lg-4">
                     <div className="input-group mb-3 dir_ltr">
                         <input
@@ -61,10 +67,10 @@ const PaginatedDataTable = ({
                         {tableData.map((d) => (
                             <tr key={d.id}>
                                 {dataInfo.map((i, index) => i.field ? (
-                                    
+
                                     <td key={i.field + "_" + d.id}>{d[i.field]}</td>
                                 ) : (
-                                    <td key={d.id + "__" + i.id+"__"+index}>{i.elements(d)}</td>
+                                    <td key={d.id + "__" + i.id + "__" + index}>{i.elements(d)}</td>
                                 ))}
                             </tr>
                         ))}
@@ -89,16 +95,52 @@ const PaginatedDataTable = ({
                                 <span aria-hidden="true">&raquo;</span>
                             </span>
                         </li>
-                        {pages.map((page) => (
-                            <li className="page-item" key={page}>
+
+
+
+
+
+                        {currentPage > pagePange ? (
+                            <li className="page-item me-2">
                                 <span
-                                    className={`page-link pointer ${currentPage === page ? "alert-success" : ""}`}
-                                    onClick={() => setCurrentPage(page)}
+                                    className="page-link pointer"
+                                    onClick={() => setCurrentPage(1)}
                                 >
-                                    {page}
+                                    1
                                 </span>
                             </li>
-                        ))}
+                        ) : null}
+
+
+
+
+
+                        {pages.map((page) => {
+                            return page < currentPage + pagePange && page > currentPage - pagePange ? (
+                                <li className=" page-item" key={page} >
+                                    <span className={` page-link pointer ${currentPage == page ? "alert-success" : ""}`}
+                                        onClick={() => setCurrentPage(page)}
+                                    >
+                                        {page}
+                                    </span>
+                                </li>
+                            ) : null;
+                        })}
+
+
+
+                        {currentPage <= pageCount - pagePange ? (
+                            <li className="page-item ms-2">
+                                <span
+                                    className=" page-link pointer"
+                                    onClick={() => setCurrentPage(pageCount)}
+                                >
+                                    {pageCount}
+                                </span>
+                            </li>
+                        ) : null}
+
+
                         <li className="page-item">
                             <span
                                 className={`page-link pointer ${currentPage === pageCount ? "disabled" : ""}`}

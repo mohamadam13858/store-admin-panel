@@ -16,6 +16,9 @@ const PaginatedTable = ({
   const [pageCount, setPageCount] = useState(1);
   const [searchChar, setSearchChar] = useState("");
 
+  const pagePange = 3
+
+
   useEffect(() => {
     let pCount = Math.ceil(initData.length / numOfPAge);
     setPageCount(pCount);
@@ -105,18 +108,45 @@ const PaginatedTable = ({
                 <span aria-hidden="true">&raquo;</span>
               </span>
             </li>
-            {pages.map((page) => (
-              <li className="page-item" key={page}>
-                <span
-                  className={`page-link pointer ${
-                    currentPage == page ? "alert-success" : ""
-                  }`}
-                  onClick={() => setCurrentPage(page)}
-                >
-                  {page}
-                </span>
-              </li>
-            ))}
+            {currentPage > pagePange ? (
+                            <li className="page-item me-2">
+                                <span
+                                    className="page-link pointer"
+                                    onClick={() => setCurrentPage(1)}
+                                >
+                                    1
+                                </span>
+                            </li>
+                        ) : null}
+
+
+
+
+
+                        {pages.map((page) => {
+                            return page < currentPage + pagePange && page > currentPage - pagePange ? (
+                                <li className=" page-item" key={page} >
+                                    <span className={` page-link pointer ${currentPage == page ? "alert-success" : ""}`}
+                                        onClick={() => setCurrentPage(page)}
+                                    >
+                                        {page}
+                                    </span>
+                                </li>
+                            ) : null;
+                        })}
+
+
+
+                        {currentPage <= pageCount - pagePange ? (
+                            <li className="page-item ms-2">
+                                <span
+                                    className=" page-link pointer"
+                                    onClick={() => setCurrentPage(pageCount)}
+                                >
+                                    {pageCount}
+                                </span>
+                            </li>
+                        ) : null}
             <li className="page-item">
               <span
                 className={`page-link pointer ${

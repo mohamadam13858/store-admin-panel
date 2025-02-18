@@ -2,7 +2,7 @@ import React from "react";
 
 
 
-const Actions = () => {
+const Actions = ({ rowData , handleDeleteProduct}) => {
     return (
         <>
             <i
@@ -18,6 +18,7 @@ const Actions = () => {
                 title="حذف محصول"
                 data-bs-toggle="tooltip"
                 data-bs-placement="top"
+                onClick={()=>{handleDeleteProduct(rowData)}}
             ></i>
         </>
     )
