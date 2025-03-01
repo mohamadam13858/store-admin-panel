@@ -68,8 +68,8 @@ const PaginatedTable = ({
               ))}
               {additionField
                 ? additionField.map((a, index) => (
-                    <th key={a.id + "__" + index}>{a.title}</th>
-                  ))
+                  <th key={a.id + "__" + index}>{a.title}</th>
+                ))
                 : null}
             </tr>
           </thead>
@@ -81,8 +81,8 @@ const PaginatedTable = ({
                 ))}
                 {additionField
                   ? additionField.map((a, index) => (
-                      <td key={a.id + "___" + index}>{a.elements(d)}</td>
-                    ))
+                    <td key={a.id + "___" + index}>{a.elements(d)}</td>
+                  ))
                   : null}
               </tr>
             ))}
@@ -99,59 +99,60 @@ const PaginatedTable = ({
           <ul className="pagination dir_ltr">
             <li className="page-item">
               <span
-                className={`page-link pointer ${
-                  currentPage == 1 ? "disabled" : ""
-                }`}
+                className={`page-link pointer ${currentPage == 1 ? "disabled" : ""
+                  }`}
                 aria-label="Previous"
                 onClick={() => setCurrentPage(currentPage - 1)}
               >
                 <span aria-hidden="true">&raquo;</span>
               </span>
             </li>
+
+
+            
             {currentPage > pagePange ? (
-                            <li className="page-item me-2">
-                                <span
-                                    className="page-link pointer"
-                                    onClick={() => setCurrentPage(1)}
-                                >
-                                    1
-                                </span>
-                            </li>
-                        ) : null}
+              <li className="page-item me-2">
+                <span
+                  className="page-link pointer"
+                  onClick={() => setCurrentPage(1)}
+                >
+                  1
+                </span>
+              </li>
+            ) : null}
 
 
 
 
 
-                        {pages.map((page) => {
-                            return page < currentPage + pagePange && page > currentPage - pagePange ? (
-                                <li className=" page-item" key={page} >
-                                    <span className={` page-link pointer ${currentPage == page ? "alert-success" : ""}`}
-                                        onClick={() => setCurrentPage(page)}
-                                    >
-                                        {page}
-                                    </span>
-                                </li>
-                            ) : null;
-                        })}
+            {pages.map((page) => {
+              return page < currentPage + pagePange && page > currentPage - pagePange ? (
+                <li className=" page-item" key={page} >
+                  <span className={` page-link pointer ${currentPage == page ? "alert-success" : ""}`}
+                    onClick={() => setCurrentPage(page)}
+                  >
+                    {page}
+                  </span>
+                </li>
+              ) : null;
+            })}
 
 
 
-                        {currentPage <= pageCount - pagePange ? (
-                            <li className="page-item ms-2">
-                                <span
-                                    className=" page-link pointer"
-                                    onClick={() => setCurrentPage(pageCount)}
-                                >
-                                    {pageCount}
-                                </span>
-                            </li>
-                        ) : null}
+            {currentPage <= pageCount - pagePange ? (
+              <li className="page-item ms-2">
+                <span
+                  className=" page-link pointer"
+                  onClick={() => setCurrentPage(pageCount)}
+                >
+                  {pageCount}
+                </span>
+              </li>
+            ) : null}
             <li className="page-item">
               <span
-                className={`page-link pointer ${
-                  currentPage == pageCount ? "disabled" : ""
-                }`}
+                className={`page-link pointer ${currentPage == pageCount ? "disabled" : ""
+                  }`}
                 aria-label="Next"
                 onClick={() => setCurrentPage(currentPage + 1)}
               >
