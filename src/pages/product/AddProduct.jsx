@@ -1,10 +1,8 @@
 import { ErrorMessage, Form, Formik } from "formik";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { createPortal } from "react-dom";
 import FormikControl from "../../components/form/FormikControl";
 import FormikError from "../../components/form/FormikError";
-import ModalsContainer from "../../components/ModalsContainer";
 import PrevPageButton from "../../components/PrevPageButton";
 import SpinnerLoad from "../../components/SpinnerLoad";
 import { getCategoriesService } from "../../services/category";

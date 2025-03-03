@@ -21,7 +21,7 @@ const TableProduct = () => {
     {
       field: null,
       title: "گروه محصول",
-      elements: (rowData) => rowData.categories[0].title,
+      elements: (rowData) => rowData.categories?.[0]?.title || "ندارد",
     },
     { field: "title", title: "عنوان" },
     { field: "price", title: "قیمت" },
