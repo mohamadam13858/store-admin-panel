@@ -9,8 +9,8 @@ export const getSingleCategoryService = (id)=>{
 }
 
 export const createNewCategoryService = (data) => {
+    let formdata = new FormData();
     if (data.image) {
-        let formdata = new FormData();
         formdata.append('parent_id', data.parent_id)
         formdata.append('title', data.title)
         formdata.append('description', data.description)

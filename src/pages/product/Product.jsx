@@ -1,6 +1,4 @@
 import React from "react";
-import AddProduct from "./AddProduct";
-import SetAttribute from "./SetAttribute";
 import TableProduct from "./TableProduct";
 
 const Product = () => {

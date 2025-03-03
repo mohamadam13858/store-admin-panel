@@ -9,29 +9,28 @@ import { addNewBrandService, editBrandService } from "../../services/brands";
     logo: null,
   };
   
-  export const onSubmit = async (values, actions, setData , brandToEdit) => {
+  export const onSubmit = async (values, actions, setData, brandToEdit) => {
+
     if (brandToEdit) {
-      const res = await editBrandService(brandToEdit.id , values)
+      
+      const res = await editBrandService(brandToEdit.id, values)
       if (res.status === 200) {
-        Alert("انجام شد"  , res.data.message , "success")
+        Alert('انجام شد', res.data.message, 'success');
         setData(lastData=>{
           let newData = [...lastData];
           let index = newData.findIndex(d=>d.id == brandToEdit.id)
           newData[index] = res.data.data;
-          return newData
+          return newData;
         })
-      }
-      
+    }
+
     }else{
       const res = await addNewBrandService(values);
-      console.log(res);
       if (res.status === 201) {
           Alert('انجام شد', res.data.message, 'success');
           setData(lastData=>[...lastData, res.data.data])
       }
     }
-    console.log(values);
-    
   };
   
   export const validationSchema = Yup.object({
