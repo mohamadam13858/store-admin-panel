@@ -23,14 +23,22 @@ axios.interceptors.response.use((res)=>{
 
 const httpService = (url, method, data=null)=>{
     const tokenInfo = JSON.parse(localStorage.getItem('loginToken'))
+
+    const headers = {
+        Authorization : tokenInfo ? `Bearer ${tokenInfo.token}` : null,
+    };
+
+    if (data instanceof FormData) {
+        headers["Content-Type"] = "multipart/form-data";
+    } else {
+        headers["Content-Type"] = "application/json";
+    }
+
     return axios({
         url: apiPath+"/api"+url,
         method,
         data,
-        headers:{
-            Authorization : tokenInfo ? `Bearer ${tokenInfo.token}` : null,
-            "Content-Type" : "application/json"
-        }
+        headers
     })
 }
 export default httpService

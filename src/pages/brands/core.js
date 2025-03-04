@@ -40,15 +40,15 @@ import { addNewBrandService, editBrandService } from "../../services/brands";
       "فقط از اعداد و حروف لاتین استفاده شود"
     ),
     persian_name: Yup.string()
-      .matches(
-        /^[\u0600-\u06FF\sa-zA-Z0-9@!%$?&]+$/,
-        "فقط از اعداد و حروف استفاده شود"
-      ),
+    .matches(
+      /^[\u0600-\u06FF0-9]+$/,
+      "فقط از حروف و اعداد فارسی استفاده شود"
+    ),  
     descriptions: Yup.string().matches(
       /^[\u0600-\u06FF\sa-zA-Z0-9@!%$?&]+$/,
       "فقط از اعداد و حروف استفاده شود"
     ),
-    logo: Yup.mixed()
+    logo: Yup.mixed().nullable()
       .test("filesize", "حجم فایل نمیتواند بیشتر 500 کیلوبایت باشد", (value) =>
         !value ? true : value.size <= 500 * 1024
       )

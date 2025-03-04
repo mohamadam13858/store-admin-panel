@@ -15,7 +15,6 @@ export const initialValues = {
 };
 
 export const onSubmit = async (values, actions, setForceRender, editId) => {
-  console.log(actions);
   try {
     values = {
       ...values,
@@ -30,7 +29,6 @@ export const onSubmit = async (values, actions, setForceRender, editId) => {
       }
     } else {
       const res = await createNewCategoryService(values);
-      console.log(res);
       if (res.status == 201) {
         Alert("ثبت رکورد", res.data.message, "success");
         actions.resetForm();
@@ -38,13 +36,14 @@ export const onSubmit = async (values, actions, setForceRender, editId) => {
       }
     }
   } catch (error) {
-    console.log(error.message);
+    Alert("خطا", error.response?.data?.message || "مشکلی پیش آمده است", "error");
+    console.error(error);
   }
-  console.log(values);
+
 };
 
 export const validationSchema = Yup.object({
-  parent_id: Yup.number(),
+  parent_id: Yup.number().nullable(),
   title: Yup.string()
     .required("لطفا این قسمت را پر کنید")
     .matches(
@@ -55,13 +54,14 @@ export const validationSchema = Yup.object({
     /^[\u0600-\u06FF\sa-zA-Z0-9@!%$?&]+$/,
     "فقط از حروف و اعداد استفاده شود"
   ),
-  image: Yup.mixed()
-    .test("filesize", "حجم فایل نمیتواند بیشتر 500 کیلوبایت باشد", (value) =>
-      !value ? true : value.size <= 500 * 1024
-    )
-    .test("format", "فرمت فایل باید jpg باشد", (value) =>
-      !value ? true : value.type === "image/jpeg"
-    ),
+  image: Yup.mixed().nullable()
+  .test("fileSize", "حجم فایل نمیتواند بیشتر 500 کیلوبایت باشد", (value) =>
+    !value ? true : value.size <= 500 * 1024
+  )
+  .test("fileType", "فرمت فایل باید jpg باشد", (value) =>
+    !value ? true : value.type === "image/jpeg"
+  ),
+
   is_active: Yup.boolean(),
   show_in_menu: Yup.boolean(),
 });
