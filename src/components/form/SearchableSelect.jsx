@@ -1,5 +1,5 @@
 import { ErrorMessage, Field } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FormikError from "./FormikError";
 
 
@@ -13,13 +13,20 @@ const SearchableSelect = ({ resultType, options = [], name, label, className, fi
 
 
     const handleSelectItem = (selectedId, formik) => {
-  
-        if (selectedItems.findIndex(d=>d.id == selectedId) == -1 && selectedId > 0) {
-            const newData = [...selectedItems , options.filter(o=>o.id == selectedId)[0]]
+
+        if (selectedItems.findIndex(d => d.id == selectedId) == -1 && selectedId > 0) {
+
+
+
+            const newData = [...selectedItems, options.filter(o => o.id == selectedId)[0]]
             setSelectedItems(newData)
+
+
+
+
             const selectedIds = newData.map(nd => nd.id)
             const nameValue = resultType == "string" ? selectedIds.join("-") : selectedIds
-            formik.setFieldValue(name , nameValue)
+            formik.setFieldValue(name, nameValue)
         }
     };
 
@@ -35,6 +42,15 @@ const SearchableSelect = ({ resultType, options = [], name, label, className, fi
         });
     };
 
+    useEffect(() => {
+        document.querySelector("body").addEventListener('click', () => {
+            setShowItems(false)
+        })
+    }, [])
+
+    useEffect(() => {
+        setCopyOptions(options)
+    }, [options]);
 
 
 
@@ -45,7 +61,13 @@ const SearchableSelect = ({ resultType, options = [], name, label, className, fi
             {({ form }) => {
                 return (
                     <div className={`col-12 ${className}`}>
-                        <div className="input-group mb-3 dir_ltr pointer" onClick={() => setShowItems(!showItems)}>
+                        <div className="input-group mb-3 dir_ltr pointer" onClick={(e) => {
+                              e.stopPropagation()
+                            setShowItems(!showItems)
+
+                        }}
+                        >
+
                             <div className="form-select " id={name + "-select"}>
                                 {selectedItems.length > 0 ? selectedItems.map((selectedItems) => (
                                     <span className="chips_elem" key={selectedItems.id}>
