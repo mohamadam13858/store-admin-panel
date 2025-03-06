@@ -25,8 +25,8 @@ export const onSubmit = async (values, actions) => {
   const res = await createNewProductService(values);
   if (res.status === 201) {
     Alert("انجام شد", res.data.message, 'success')
+    actions.resetForm();
   }
-  actions.resetForm()
 };
 
 export const validationSchema = Yup.object({
@@ -55,5 +55,5 @@ export const validationSchema = Yup.object({
   alt_image: Yup.string().matches(/^[\u0600-\u06FF\sa-zA-Z0-9@!%-.$?&]+$/, "فقط از حروف و اعداد استفاده شود"),
   keywords: Yup.string().matches(/^[\u0600-\u06FF\sa-zA-Z0-9@!%-.$?&]+$/, "فقط از حروف و اعداد استفاده شود"),
   stock: Yup.number().nullable().required("لطفا این قسمت را پر کنید"),
-  discount: Yup.number().nullable().required("لطفا این قسمت را پر کنید"),
+  discount: Yup.number().nullable()
 });

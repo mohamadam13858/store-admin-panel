@@ -151,7 +151,6 @@ const AddProduct = () => {
                 />
 
 
-                <button className="btn btn-outline-dark mb-2 w-25 justify-content-center row fs-14 ">افزودن برند</button>
 
                 <FormikControl
                   className="col-md-6 col-lg-8"
@@ -162,8 +161,6 @@ const AddProduct = () => {
                   firstItem="برند مورد نظر را انتخاب کنبد..."
                 />
 
-
-                <button className="btn btn-outline-dark mb-2 w-25 justify-content-center row fs-14">افزودن رنگ</button>
 
 
 
@@ -177,10 +174,6 @@ const AddProduct = () => {
                   resultType="string"
                 />
 
-                <button className="btn btn-outline-dark mb-2 w-25 justify-content-center d-flex fs-14"
-                  data-bs-toggle="modal"
-                  data-bs-target="#add_guarantee_modal"
-                > افزودن گارانتی</button>
 
                 <FormikControl
                   className="col-md-6 col-lg-8"
