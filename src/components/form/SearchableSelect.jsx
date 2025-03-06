@@ -5,11 +5,16 @@ import FormikError from "./FormikError";
 
 
 
-const SearchableSelect = ({ resultType, options = [], name, label, className, firstItem }) => {
+const SearchableSelect = ({ resultType, options = [], name, label, className, firstItem, initialItems }) => {
     const [selectedItems, setSelectedItems] = useState([])
     const [showItems, setShowItems] = useState(false)
     const [copyOptions, setCopyOptions] = useState(options)
 
+
+
+    useEffect(() => {
+        setSelectedItems(initialItems)
+    }, [initialItems])
 
 
     const handleSelectItem = (selectedId, formik) => {
@@ -62,7 +67,7 @@ const SearchableSelect = ({ resultType, options = [], name, label, className, fi
                 return (
                     <div className={`col-12 ${className}`}>
                         <div className="input-group mb-3 dir_ltr pointer" onClick={(e) => {
-                              e.stopPropagation()
+                            e.stopPropagation()
                             setShowItems(!showItems)
 
                         }}

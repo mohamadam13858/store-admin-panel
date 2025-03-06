@@ -1,8 +1,7 @@
-import { ErrorMessage, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import FormikControl from "../../components/form/FormikControl";
-import FormikError from "../../components/form/FormikError";
 import PrevPageButton from "../../components/PrevPageButton";
 import SpinnerLoad from "../../components/SpinnerLoad";
 import { getCategoriesService } from "../../services/category";
@@ -11,13 +10,35 @@ import { getAllColorsService } from "../../services/colors";
 import { getAllGuaranteesService } from "../../services/guarantees";
 import { getAllBrandsService } from "../../services/brands";
 import SubmitButton from "../../components/form/SubmitButton";
+import { useLocation } from "react-router-dom";
 
 const AddProduct = () => {
+  const location = useLocation()
+  const productToEdit = location.state?.productToEdit
+  const [reInitialValues, setReInitialValues] = useState(null)
+
+
+  const [selectedCategories, setSelectedCategories] = useState([]); // used in editting
+  const [selectedColors, setSelectedColors] = useState([]); // used in editting
+  const [selectedGuarantees, setSelectedGuarantees] = useState([]); // used in editting
+
+
+
   const [parentCategories, setparentCategories] = useState([]);
   const [mainCategories, setMainCategories] = useState([]);
   const [colors, setColors] = useState([]);
   const [guarantees, setGuarantees] = useState([]);
   const [brands, setBrands] = useState([]);
+
+
+  const setInitialSelectedValues = () => {
+    if (productToEdit) {
+      setSelectedCategories(productToEdit.categories.map(d => { return { id: d.id, value: d.title } }))
+      setSelectedColors(productToEdit.colors.map(d => { return { id: d.id, value: d.title } }))
+      setSelectedGuarantees(productToEdit.guarantees.map(d => { return { id: d.id, value: d.title } }))
+    }
+  }
+
 
   const getAllParentCategories = async () => {
     const res = await getCategoriesService();
@@ -62,6 +83,24 @@ const AddProduct = () => {
     getAllBrands();
     getAllColors();
     getAllGuarantees()
+    setInitialSelectedValues()
+
+    for (const key in productToEdit) {
+      if (productToEdit[key] == null) {
+        productToEdit[key] = ""
+      }
+    }
+
+    if (productToEdit)
+      setReInitialValues({
+        ...productToEdit,
+        category_ids: productToEdit.categories.map(c => c.id).join("-"),
+        color_ids: productToEdit.colors.map(c => c.id).join("-"),
+        guarantes_ids: productToEdit.guarantees.map(c => c.id).join("-")
+      })
+    else setReInitialValues(null)
+
+
   }, [])
 
   const handleSetMainCategories = async (value) => {
@@ -84,15 +123,21 @@ const AddProduct = () => {
 
   return (
     <Formik
-      initialValues={initialValues}
-      onSubmit={(values, actions) => onSubmit(values, actions)}
+      initialValues={reInitialValues || initialValues}
+      onSubmit={(values, actions) => onSubmit(values, actions, productToEdit)}
       validationSchema={validationSchema}
+      enableReinitialize
     >
       {formik => {
         return (
           <Form>
             <div className="container">
-              <h4 className="text-center my-3">افزودن محصول جدید</h4>
+              <h4 className="text-center my-3">{productToEdit ?
+                <>
+                  ویرایش محصول : <span className="text-primary">{productToEdit.title}</span>
+                </>
+                : "افزودن محصول جدید"
+              }</h4>
               <div className="text-left col-md-6 col-lg-8 m-auto my-3">
                 <PrevPageButton />
               </div>
@@ -122,6 +167,7 @@ const AddProduct = () => {
                   label="دسته اصلی"
                   firstItem="دسته مورد نظر را انتخاب کنبد..."
                   resultType="string"
+                  initialItems={selectedCategories}
                 />
 
 
@@ -172,6 +218,7 @@ const AddProduct = () => {
                   label="رنگ"
                   firstItem="رنگ مورد نظر را انتخاب کنبد..."
                   resultType="string"
+                  initialItems={selectedColors}
                 />
 
 
@@ -183,6 +230,7 @@ const AddProduct = () => {
                   label="گارانتی"
                   firstItem="گارانتی مورد نظر را انتخاب کنبد..."
                   resultType="string"
+                  initialItems={selectedGuarantees}
                 />
 
 
@@ -214,13 +262,16 @@ const AddProduct = () => {
                   placeholder=" توضیحات سبد"
                 />
 
-                <FormikControl
-                  className="col-md-6 col-lg-8"
-                  control="file"
-                  name="image"
-                  label="تصویر"
-                  placeholder="تصویر"
-                />
+                {!productToEdit ?
+
+                  <FormikControl
+                    className="col-md-6 col-lg-8"
+                    control="file"
+                    name="image"
+                    label="تصویر"
+                    placeholder="تصویر"
+                  />
+                  : null}
 
 
                 <FormikControl

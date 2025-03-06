@@ -56,5 +56,5 @@ export const setDashboardChart = (labels, datapoints) => {
 
 
 export const destroyChart = () => {
-   chart.destroy()
+    chart.destroy()
 }
