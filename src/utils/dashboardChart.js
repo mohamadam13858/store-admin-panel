@@ -1,6 +1,7 @@
 import Chart from "chart.js/auto";
-var chart
-export const setDashboardChart = (labels, datapoints) => {
+let chart;
+export const setDashboardChart = (labels , datapoints)=>{
+    chart && chart.destroy();
     const data = {
         labels: labels,
         datasets: [
@@ -51,10 +52,9 @@ export const setDashboardChart = (labels, datapoints) => {
     };
 
     const ctx = document.getElementById('myChart').getContext('2d');
-    chart = new Chart(ctx, config)
+    chart = new Chart(ctx , config)
 }
 
-
-export const destroyChart = () => {
+export const destroyChart = ()=>{
     chart.destroy()
 }

@@ -5,8 +5,8 @@ export const getAllBrandsService = () => {
 };
 
 export const addNewBrandService = (data) => {
-  let formdata = new FormData();
   if (data.logo) {
+    let formdata = new FormData();
     formdata.append("original_name", data.original_name);
     formdata.append("persian_name", data.persian_name);
     formdata.append("descriptions", data.descriptions);

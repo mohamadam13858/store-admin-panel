@@ -9,7 +9,7 @@ axios.interceptors.response.use((res)=>{
         if (typeof(res.data) == 'object') {
             let message = ""
             for (const key in res.data) {
-                message = message + `${key} : ${res.data[key]}`
+                message = message + `${res.data[key]}`
             }
             res.data.message = message
         }
@@ -17,28 +17,21 @@ axios.interceptors.response.use((res)=>{
     }
     return res
 },(error)=>{
-    Alert(error.response.status, "مشکلی رخ داده است", "error");
+    console.log(error);
+    Alert(error.response.status, error.response.data?.message || "مشکلی رخ داده است", "error");
     return Promise.reject(error)
 })
 
 const httpService = (url, method, data=null)=>{
     const tokenInfo = JSON.parse(localStorage.getItem('loginToken'))
-
-    const headers = {
-        Authorization : tokenInfo ? `Bearer ${tokenInfo.token}` : null,
-    };
-
-    if (data instanceof FormData) {
-        headers["Content-Type"] = "multipart/form-data";
-    } else {
-        headers["Content-Type"] = "application/json";
-    }
-
     return axios({
         url: apiPath+"/api"+url,
         method,
         data,
-        headers
+        headers:{
+            Authorization : tokenInfo ? `Bearer ${tokenInfo.token}` : null,
+            "Content-Type" : "application/json"
+        }
     })
 }
 export default httpService

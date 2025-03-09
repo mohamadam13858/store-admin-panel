@@ -103,15 +103,9 @@ const Addcategory = ({ setForceRender }) => {
           validationSchema={validationSchema}
           enableReinitialize
         >
-          {formik => {
-            console.log(formik);
-            
-            return(
-            
-              <Form>
+          <Form>
             <div className="container">
               <div className="row justify-content-center">
-                
                 {parents.length > 0 ? (
                   <FormikControl
                     className="col-md-6 col-lg-8"
@@ -122,7 +116,6 @@ const Addcategory = ({ setForceRender }) => {
                     firstItem="دسته بندی والد را انتخاب کنید..."
                   />
                 ) : null}
-                
                 <FormikControl
                   className="col-md-6 col-lg-8"
                   control="input"
@@ -153,14 +146,14 @@ const Addcategory = ({ setForceRender }) => {
                       control="switch"
                       name="is_active"
                       label="وضعیت فعال"
-                      />
+                    />
                   </div>
                   <div className="col-12 col-md-4 col-lg-3 mx-lg-5">
                     <FormikControl
                       control="switch"
                       name="show_in_menu"
                       label="نمایش در منو"
-                      />
+                    />
                   </div>
                 </div>
                 <div className="btn_box text-center col-12 col-md-6 col-lg-8 mt-4">
@@ -169,8 +162,6 @@ const Addcategory = ({ setForceRender }) => {
               </div>
             </div>
           </Form>
-                    )
-                  }}
         </Formik>
       </ModalsContainer>
     </>

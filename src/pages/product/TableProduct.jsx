@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import AddButtonLink from "../../components/AddButtonLink";
 import PaginatedDataTable from "../../components/PaginatedDataTable";
+import { useHasPermission } from "../../hook/permissionsHook";
 import { deleteProductService, getProductsService } from "../../services/products";
 import { Alert, Confirm } from "../../utils/alerts";
 import AddProduct from "./AddProduct";
@@ -16,12 +17,14 @@ const TableProduct = () => {
   const [countOnPage, setCountOnPage] = useState(10) // تعداد محصول در هر صفحه
   const [pageCount, setPageCount] = useState(0) // تعداد کل صفحات
 
+  const hasAddProductPerm = useHasPermission("create_product")
+
   const dataInfo = [
     { field: "id", title: "#" },
     {
       field: null,
       title: "گروه محصول",
-      elements: (rowData) => rowData.categories?.[0]?.title || "ندارد",
+      elements: (rowData) => rowData.categories[0]?.title,
     },
     { field: "title", title: "عنوان" },
     { field: "price", title: "قیمت" },
@@ -77,7 +80,7 @@ const TableProduct = () => {
     pageCount={pageCount}
     handleSearch={handleSearch}
     >
-      <AddButtonLink href={"/products/add-product"}/>
+      {hasAddProductPerm && <AddButtonLink href={"/products/add-product"}/>}
     </PaginatedDataTable>
   );
 };
