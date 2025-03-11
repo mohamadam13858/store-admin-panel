@@ -9,7 +9,9 @@ export const initialValues = {
     title: "",
     description: "",
     permissions_id: [],
+    editPermissions: false, // مقدار پیش‌فرض را بسته به نیاز تنظیم کنید
 };
+
 
 export const onSubmit = async (values, actions, setData, roleIdToEdit, editType) => {
     if (editType == "role") {
@@ -36,17 +38,14 @@ export const onSubmit = async (values, actions, setData, roleIdToEdit, editType)
 };
 
 export const validationSchema = Yup.object().shape({
-    title: Yup.string().when('editPermissions', {
-        is: true,
-        then: null,
-        otherwise: Yup.string().required("لطفا این قسمت را پر کنید")
-        .matches(/^[\u0600-\u06FF\sa-zA-Z0-9@!%-_.$?&]+$/, "فقط از حروف و اعداد استفاده شود"),
-    }),        
-    description: Yup.string().when('editPermissions', {
-        is: true,
-        then: null,
-        otherwise: Yup.string().required("لطفا این قسمت را پر کنید")
-        .matches(/^[\u0600-\u06FF\sa-zA-Z0-9@!%-_.$?&]+$/, "فقط از حروف و اعداد استفاده شود"),
+    title: Yup.string().when('editPermissions', (editPermissions, schema) => {
+        return editPermissions ? schema.nullable() : schema.required("لطفا این قسمت را پر کنید")
+            .matches(/^[\u0600-\u06FF\sa-zA-Z0-9@!%-_.$?&]+$/, "فقط از حروف و اعداد استفاده شود");
+    }),
+    description: Yup.string().when('editPermissions', (editPermissions, schema) => {
+        return editPermissions ? schema.nullable() : schema.required("لطفا این قسمت را پر کنید")
+            .matches(/^[\u0600-\u06FF\sa-zA-Z0-9@!%-_.$?&]+$/, "فقط از حروف و اعداد استفاده شود");
     }),
     permissions_id: Yup.array().min(1, "حد اقل یک مورد انتخاب کنید")
-})
+});
+
