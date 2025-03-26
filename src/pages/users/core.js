@@ -46,17 +46,20 @@ export const validationSchema = Yup.object().shape({
         .matches(/^[\u0600-\u06FF\sa-zA-Z0-9@!%-_.$?&]+$/, "فقط از حروف و اعداد استفاده شود"),
     first_name : Yup.string().matches(/^[\u0600-\u06FF\sa-zA-Z0-9@!%-_.$?&]+$/, "فقط از حروف و اعداد استفاده شود"),
     last_name : Yup.string().matches(/^[\u0600-\u06FF\sa-zA-Z0-9@!%-_.$?&]+$/, "فقط از حروف و اعداد استفاده شود"),
-    password : Yup.string().when("isEditing", {
-        is: true,
-        then: Yup.string()
-            .matches(/^[\u0600-\u06FF\sa-zA-Z0-9@!%-_.$?&]+$/, "فقط از حروف و اعداد استفاده شود"),
-        otherwise: Yup.string()
-            .required("لطفا این قسمت را پر کنید")
-            .matches(/^[\u0600-\u06FF\sa-zA-Z0-9@!%-_.$?&]+$/, "فقط از حروف و اعداد استفاده شود")
-    }),
+    password : Yup.string().test(
+        'password-validation',
+        'لطفا این قسمت را پر کنید',
+        function(value) {
+            const { isEditing } = this.parent;
+            if (isEditing) {
+                return true; // اگر در حالت ویرایش هستیم، اعتبارسنجی را انجام ندهید
+            }
+            return !!value; // در غیر این صورت، مطمئن شوید که مقدار وارد شده است
+        }
+    ).matches(/^[\u0600-\u06FF\sa-zA-Z0-9@!%-_.$?&]+$/, "فقط از حروف و اعداد استفاده شود"),
     phone : Yup.number().typeError("فقط عدد وارد کنید").required("لطفا این قسمت را پر کنید"),
     email : Yup.string().email("لطفا فرمت ایمیل را رعایت کنید"),
     birth_date : Yup.string().matches(/^[0-9/\ \s-]+$/,"فقط ازاعداد و خط تیره استفاده شود"),
     gender : Yup.number(),
     roles_id : Yup.array().min(1, "حد اقل یک مورد انتخاب کنید"),
-})
+});
